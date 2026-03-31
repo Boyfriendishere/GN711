@@ -161,10 +161,10 @@
             from_name: name,
             message: msg
         }).then(() => {
-            alert("傳送成功！我會儘快處理並保護您的隱私。");
+            alert("傳送成功！我會儘快處理。");
             document.getElementById('contactName').value = "";
             document.getElementById('contactMsg').value = "";
-            btn.innerText = "🚀 靜默發送安全回報";
+            btn.innerText = "🚀 發送回報";
             btn.disabled = false;
         }, (err) => {
             alert("傳送失敗，請稍後再試。");
