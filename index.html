@@ -53,12 +53,12 @@
     <h1>💎 GN 主播收益精算</h1>
 
     <div class="input-group">
-        <label>累積魅力值 (Charm)</label>
+        <label>魅力值(Charm)</label>
         <input type="number" id="charm" value="0" oninput="calculate()" onclick="this.select()" placeholder="輸入魅力值數字">
     </div>
 
     <div class="input-group">
-        <label>珍珠等級 (對應倍率)</label>
+        <label>珍珠等級</label>
         <div class="level-grid" id="lvlGrid">
             <button class="btn-lvl" onclick="selectLvl(1, 0.6)">1等<br>0.6</button>
             <button class="btn-lvl" onclick="selectLvl(2, 1.2)">2等<br>1.2</button>
@@ -71,11 +71,11 @@
         </div>
     </div>
 
-    <button class="btn-main" onclick="calculate()">立即試算收益</button>
+    <button class="btn-main" onclick="calculate()">試算收益</button>
 
     <div id="resBoard" class="result-panel">
         <div class="res-main">
-            <div class="res-label">預計實領入帳 (Net)</div>
+            <div class="res-label">預計實領入帳</div>
             <span class="res-money" id="netIncome">$0</span>
         </div>
         
