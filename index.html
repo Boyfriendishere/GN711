@@ -3,111 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goodnight 收益精算</title>
+    <title>Goodnight 主播收益系統</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            // 已填入你的 Public Key
             emailjs.init("EzhO0x-IABJW4a3Om");
         })();
     </script>
     <style>
         :root { 
-            --gn-blue: #0984e3; 
-            --gn-cyan: #00cec9; 
-            --gn-dark: #0a0a0b; 
-            --gn-card: #161b22; 
+            --brand-blue: #0984e3; 
+            --brand-cyan: #00cec9; 
+            --bg-deep: #05070a; 
+            --card-bg: rgba(23, 28, 36, 0.85);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--gn-dark); color: white; display: flex; justify-content: center; padding: 20px; }
-        .card { background: var(--gn-card); width: 100%; max-width: 480px; padding: 30px 25px; border-radius: 28px; border: 1px solid #30363d; box-shadow: 0 15px 45px rgba(0,0,0,0.6); }
-        h1 { color: var(--gn-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px; font-weight: 800; }
         
-        .input-group { margin-bottom: 25px; }
-        label { display: block; margin-bottom: 10px; color: #8b949e; font-size: 0.9rem; font-weight: 600; }
-        input, textarea { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid #30363d; background: #0d1117; color: white; font-size: 1.2rem; box-sizing: border-box; outline: none; transition: 0.3s; }
-        input:focus, textarea:focus { border-color: var(--gn-cyan); box-shadow: 0 0 12px rgba(0, 206, 201, 0.2); }
-        
-        /* 珍珠等級按鈕 */
-        .level-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
-        .btn-lvl { background: #21262d; color: #8b949e; border: 1px solid #30363d; padding: 15px 2px; border-radius: 12px; font-size: 0.9rem; cursor: pointer; transition: 0.2s; font-weight: 600; }
-        .btn-lvl:hover { border-color: var(--gn-cyan); color: white; }
-        .btn-lvl.active { background: linear-gradient(135deg, var(--gn-blue), var(--gn-cyan)); color: white; border: none; box-shadow: 0 4px 15px rgba(0, 206, 201, 0.3); transform: translateY(-2px); }
-        
-        .btn-main { width: 100%; background: linear-gradient(90deg, var(--gn-blue), var(--gn-cyan)); color: white; border: none; padding: 20px; border-radius: 50px; font-size: 1.25rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; }
-        .btn-main:active { transform: scale(0.98); }
-        
-        /* 結果面板 */
-        .result-panel { margin-top: 35px; background: rgba(0, 0, 0, 0.2); padding: 25px; border-radius: 24px; border: 1px solid #30363d; }
-        .res-main { text-align: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #30363d; }
-        .res-label { font-size: 0.95rem; color: #8b949e; margin-bottom: 8px; }
-        .res-money { font-size: 3.2rem; font-weight: 800; color: #55efc4; display: block; text-shadow: 0 0 20px rgba(85, 239, 196, 0.2); }
-        
-        .tax-info { font-size: 1rem; color: #c9d1d9; line-height: 2.2; }
-        .tax-item { display: flex; justify-content: space-between; }
-        .tax-val { color: #fab1a0; font-weight: bold; }
-        
-        /* 隱私聲明 */
-        .privacy-box { background: rgba(255, 118, 117, 0.05); border: 1px dashed #ff7675; padding: 20px; margin-top: 40px; border-radius: 16px; font-size: 0.85rem; color: #8b949e; line-height: 1.6; }
-        .privacy-title { color: #ff7675; font-weight: bold; display: block; margin-bottom: 8px; }
+        body { 
+            font-family: "PingFang TC", "Inter", sans-serif; 
+            background: radial-gradient(circle at top right, #0a192f, #05070a); 
+            color: #e6edf3; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+        }
 
-        .contact-form { margin-top: 30px; border-top: 1px solid #333; padding-top: 25px; }
-        .btn-send { background: transparent; color: var(--gn-cyan); border: 1px solid var(--gn-cyan); padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: bold; transition: 0.3s; }
-        .btn-send:hover { background: var(--gn-cyan); color: #000; }
+        .card { 
+            background: var(--card-bg); 
+            width: 100%; 
+            max-width: 460px; 
+            padding: 40px 30px; 
+            border-radius: 32px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
 
-        .note { font-size: 0.8rem; color: #484f58; margin-top: 40px; line-height: 1.8; text-align: center; }
-        .thanks { color: var(--gn-blue); font-weight: bold; margin-top: 15px; border-top: 1px solid #30363d; padding-top: 20px; font-size: 0.85rem; letter-spacing: 0.5px; }
+        /* 裝飾性背景光芒 */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--brand-blue), transparent, var(--brand-cyan));
+            z-index: -1;
+            border-radius: 33px;
+            opacity: 0.2;
+        }
+
+        h1 { 
+            background: linear-gradient(135deg, #fff 0%, var(--brand-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center; 
+            font-size: 1.8rem; 
+            margin-bottom: 35px; 
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        
+        label { color: #8b949e; font-size: 0.8rem; font-weight: 600; margin-left: 10px; margin-bottom: 10px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+
+        input, textarea { 
+            width: 100%; padding: 18px; border-radius: 18px; 
+            border: 1px solid rgba(255,255,255,0.05); background: rgba(0, 0, 0, 0.3); 
+            color: white; font-size: 1.3rem; box-sizing: border-box; 
+            outline: none; transition: 0.4s;
+        }
+
+        input:focus { border-color: var(--brand-cyan); background: rgba(0, 0, 0, 0.5); }
+
+        .level-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 15px 0 30px 0; }
+        .btn-lvl { 
+            background: rgba(255, 255, 255, 0.03); color: #8b949e; border: 1px solid rgba(255,255,255,0.05); 
+            padding: 15px 0; border-radius: 16px; font-size: 0.9rem; 
+            cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-weight: 600;
+        }
+        .btn-lvl:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+        .btn-lvl.active { 
+            background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan)); 
+            color: white; border: none; 
+            box-shadow: 0 10px 20px rgba(0, 206, 201, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        /* 結果面板視覺強化 */
+        .result-panel { margin-top: 40px; border-radius: 28px; overflow: hidden; background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); }
+        .res-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .res-label { font-size: 0.85rem; color: #8b949e; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .res-money { font-size: 3.2rem; font-weight: 800; color: #55efc4; text-shadow: 0 0 30px rgba(85, 239, 196, 0.3); }
+        
+        .details { padding: 25px; font-size: 0.9rem; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 15px; color: #c9d1d9; }
+        .tax-val { color: #ff7675; font-weight: 600; }
+        
+        .privacy-box { 
+            background: rgba(255, 118, 117, 0.03); border: 1px dashed rgba(255, 118, 117, 0.3); 
+            padding: 20px; margin-top: 45px; border-radius: 20px; 
+            font-size: 0.85rem; color: #8b949e; line-height: 1.7;
+        }
+
+        .contact-form { margin-top: 35px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; }
+        .btn-send { 
+            background: transparent; color: var(--brand-cyan); border: 1.5px solid var(--brand-cyan); 
+            padding: 16px; border-radius: 50px; cursor: pointer; width: 100%; 
+            margin-top: 20px; font-weight: 700; transition: 0.3s; letter-spacing: 1px;
+        }
+        .btn-send:hover { background: var(--brand-cyan); color: #000; box-shadow: 0 0 20px rgba(0, 206, 201, 0.4); }
+
+        .note { font-size: 0.75rem; color: #484f58; margin-top: 50px; text-align: center; }
+        .thanks { color: var(--brand-blue); font-weight: bold; margin-top: 15px; font-size: 0.8rem; letter-spacing: 0.5px; opacity: 0.8; }
     </style>
 </head>
 <body onload="calculate()">
 
 <div class="card">
-    <h1>💎 Goodnight 收益精算</h1>
+    <h1>⚓Goodnight 主播收益系統</h1>
 
     <div class="input-group">
         <label>魅力值 (Charm)</label>
-        <input type="number" id="charm" value="0" oninput="calculate()" onclick="this.select()" placeholder="請輸入魅力值">
+        <input type="number" id="charm" value="0" oninput="calculate()" onclick="this.select()">
     </div>
 
     <div class="input-group">
-        <label>珍珠等級</label>
+        <label>珍珠等級 (Pearl Level)</label>
         <div class="level-grid">
-            <button class="btn-lvl" onclick="selectLvl(1, 0.6)">⚪1等</button>
-            <button class="btn-lvl" onclick="selectLvl(2, 1.2)">⚪2等</button>
-            <button class="btn-lvl" onclick="selectLvl(3, 1.25)">⚪3等</button>
-            <button class="btn-lvl" onclick="selectLvl(4, 1.3)">⚪4等</button>
-            <button class="btn-lvl" onclick="selectLvl(5, 1.35)">⚪5等</button>
-            <button class="btn-lvl" onclick="selectLvl(6, 1.4)">⚪6等</button>
-            <button class="btn-lvl" onclick="selectLvl(7, 1.45)">⚪7等</button>
-            <button class="btn-lvl active" onclick="selectLvl(8, 1.5)">⚪8等</button>
+            <button class="btn-lvl" onclick="selectLvl(1, 0.6)">1 等</button>
+            <button class="btn-lvl" onclick="selectLvl(2, 1.2)">2 等</button>
+            <button class="btn-lvl" onclick="selectLvl(3, 1.25)">3 等</button>
+            <button class="btn-lvl" onclick="selectLvl(4, 1.3)">4 等</button>
+            <button class="btn-lvl" onclick="selectLvl(5, 1.35)">5 等</button>
+            <button class="btn-lvl" onclick="selectLvl(6, 1.4)">6 等</button>
+            <button class="btn-lvl" onclick="selectLvl(7, 1.45)">7 等</button>
+            <button class="btn-lvl active" onclick="selectLvl(8, 1.5)">8 等</button>
         </div>
     </div>
 
-    <button class="btn-main" onclick="calculate()">預估收益</button>
-
     <div class="result-panel">
-        <div class="res-main">
+        <div class="res-header">
             <div class="res-label">預計實領入帳</div>
             <span class="res-money" id="netIncome">$0</span>
         </div>
-        <div class="tax-info">
-            <div class="tax-item"><span>稅前原始收入</span><span id="grossIncome" style="color:white; font-weight:bold;">$0</span></div>
-            <div class="tax-item"><span>二代健保 (2.11%)</span><span class="tax-val" id="healthTax">-$0</span></div>
-            <div class="tax-item"><span>預扣所得稅 (5.00%)</span><span class="tax-val" id="incomeTax">-$0</span></div>
+        <div class="details">
+            <div class="row"><span>原始收益估計</span><span id="grossIncome" style="color:#fff;">$0</span></div>
+            <div class="row"><span>二代健保 (2.11%)</span><span class="tax-val" id="healthTax">-$0</span></div>
+            <div class="row"><span>預扣所得稅 (5.00%)</span><span class="tax-val" id="incomeTax">-$0</span></div>
         </div>
     </div>
 
     <div class="privacy-box">
-        <span class="privacy-title">🔒 主播隱私安全聲明：</span>
-        本工具僅供主播試算方便使用，開發者 <span style="color:white;">我男朋友來了</span> 不涉及、不讀取且不存檔任何主播的收益數據。
+        <b style="color:#ff7675; display:block; margin-bottom:8px;">🔒 主播隱私安全聲明：</b>
+        本工具僅供主播試算使用，開發者 <span style="color:white;">我男朋友來了</span> 不涉及、不讀取且不存檔任何收益數據。
         <br><br>
-        若您發現有心人士持有本連結並可能計算您的收益狀況，請立即透過下方表單告知，我將會更改網址並私下重新提供給各位主播。
+        若發現有心人士持有本連結，請透過下方表單告知，我將更改網址重新提供。
     </div>
 
     <div class="contact-form">
-        <label>您的稱呼</label>
+        <label>稱呼</label>
         <input type="text" id="contactName" placeholder="GN主播名">
-        <label style="margin-top:15px;">回報內容</label>
-        <textarea id="contactMsg" rows="3" placeholder="請說明情況..."></textarea>
+        <label style="margin-top:15px;">內容</label>
+        <textarea id="contactMsg" rows="2" placeholder="安全回報..."></textarea>
         <button id="sendBtn" class="btn-send" onclick="sendMail()">🚀 發送</button>
     </div>
 
@@ -129,7 +186,6 @@
 
     function calculate() {
         const charm = parseFloat(document.getElementById('charm').value) || 0;
-        // 核心公式已封裝，不直接在 HTML 備註中顯示
         const gross = (charm / 8) * currentRate;
         let hTax = gross >= 27470 ? Math.round(gross * 0.0211) : 0;
         let iTax = gross >= 88501 ? Math.round(gross * 0.05) : 0;
@@ -145,7 +201,7 @@
         const btn = document.getElementById('sendBtn');
         const name = document.getElementById('contactName').value;
         const msg = document.getElementById('contactMsg').value;
-        if(!name || !msg) { alert('請填寫完整資訊'); return; }
+        if(!name || !msg) { alert('請完整填寫'); return; }
 
         btn.innerText = "傳送中...";
         btn.disabled = true;
@@ -154,13 +210,13 @@
             from_name: name,
             message: msg
         }).then(() => {
-            alert("安全性回報已送達，我將儘速處理。");
+            alert("回報已送達。");
             document.getElementById('contactName').value = "";
             document.getElementById('contactMsg').value = "";
-            btn.innerText = "🚀 發送";
+            btn.innerText = "🚀 發送安全性回報";
             btn.disabled = false;
         }, (err) => {
-            alert("傳送失敗，請稍後再試。");
+            alert("失敗，請重試。");
             btn.disabled = false;
         });
     }
