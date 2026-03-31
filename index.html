@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoodNight 主播收益</title>
+    <title>GoogNight 主播收益</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // 填入你的 Public Key
+            emailjs.init("EzhO0x-IABJW4a3Om");
+        })();
+    </script>
     <style>
         :root { 
             --gn-blue: #0984e3; 
@@ -20,36 +27,41 @@
         input, textarea { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #30363d; background: #0d1117; color: white; font-size: 1.1rem; box-sizing: border-box; outline: none; transition: 0.3s; font-family: inherit; }
         input:focus, textarea:focus { border-color: var(--gn-blue); box-shadow: 0 0 8px rgba(9, 132, 227, 0.3); }
         
+        /* 珍珠等級按鈕 */
         .level-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
         .btn-lvl { background: #21262d; color: #8b949e; border: 1px solid #30363d; padding: 15px 2px; border-radius: 10px; font-size: 0.9rem; cursor: pointer; transition: 0.2s; font-weight: 600; }
+        .btn-lvl:hover { border-color: var(--gn-cyan); color: white; }
         .btn-lvl.active { background: linear-gradient(135deg, var(--gn-blue), var(--gn-cyan)); color: white; border: none; box-shadow: 0 4px 12px rgba(0, 206, 201, 0.3); }
         
         .btn-main { width: 100%; background: linear-gradient(90deg, var(--gn-blue), var(--gn-cyan)); color: white; border: none; padding: 18px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-main:active { transform: scale(0.98); opacity: 0.9; }
         
         .result-panel { margin-top: 25px; background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 20px; border: 1px solid #30363d; }
         .res-main { text-align: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #30363d; }
-        .res-money { font-size: 2.8rem; font-weight: 800; color: #55efc4; display: block; margin: 8px 0; }
+        .res-label { font-size: 0.9rem; color: #8b949e; }
+        .res-money { font-size: 2.8rem; font-weight: 800; color: #55efc4; display: block; margin: 8px 0; text-shadow: 0 0 15px rgba(85, 239, 196, 0.2); }
         
         .tax-info { font-size: 0.9rem; color: #c9d1d9; line-height: 2.2; }
+        .tax-item { display: flex; justify-content: space-between; }
         .tax-val { color: #fab1a0; font-weight: bold; }
         
-        /* 隱私聲明區塊 */
-        .privacy-statement { background: rgba(255, 255, 255, 0.03); border: 1px dashed #444; padding: 15px; margin-top: 30px; border-radius: 12px; font-size: 0.85rem; color: #8b949e; line-height: 1.6; }
+        /* 隱私與回報區 */
+        .privacy-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed #444; padding: 15px; margin-top: 30px; border-radius: 12px; font-size: 0.85rem; color: #8b949e; line-height: 1.6; }
         .privacy-title { color: #ff7675; font-weight: bold; display: block; margin-bottom: 5px; }
 
-        /* 聯絡表單區塊 */
-        .contact-form { margin-top: 20px; border-top: 1px solid #30363d; padding-top: 20px; }
-        .btn-send { background: #30363d; color: #ccc; border: 1px solid #444; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; }
+        .contact-form { margin-top: 20px; border-top: 1px solid #333; padding-top: 20px; }
+        .btn-send { background: #30363d; color: #ccc; border: 1px solid #444; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; transition: 0.2s; }
         .btn-send:hover { background: #444; color: white; }
+        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .note { font-size: 0.75rem; color: #484f58; margin-top: 30px; text-align: center; }
+        .note { font-size: 0.75rem; color: #484f58; margin-top: 30px; line-height: 1.6; text-align: center; }
         .thanks { color: var(--gn-blue); font-weight: bold; margin-top: 10px; border-top: 1px solid #30363d; padding-top: 15px; font-size: 0.8rem; }
     </style>
 </head>
 <body onload="calculate()">
 
 <div class="card">
-    <h1>💎 GoodNight 主播收益</h1>
+    <h1>💎 GoogNight 主播收益</h1>
 
     <div class="input-group">
         <label>魅力值 (Charm)</label>
@@ -72,31 +84,31 @@
 
     <button class="btn-main" onclick="calculate()">試算收益</button>
 
-    <div class="result-panel">
+    <div id="resBoard" class="result-panel">
         <div class="res-main">
-            <div style="font-size: 0.9rem; color: #8b949e;">預計實領</div>
+            <div class="res-label">預計實領入帳 (Net)</div>
             <span class="res-money" id="netIncome">$0</span>
         </div>
+        
         <div class="tax-info">
-            <div style="display:flex; justify-content:space-between;"><span>稅前原始收入：</span><span id="grossIncome" style="color:white; font-weight:bold;">$0</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>二代健保 (2.11%)：</span><span class="tax-val" id="healthTax">-$0</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>所得稅預扣 (5%)：</span><span class="tax-val" id="incomeTax">-$0</span></div>
+            <div class="tax-item"><span>稅前原始收入：</span><span id="grossIncome" style="color:white; font-weight:bold;">$0</span></div>
+            <div class="tax-item"><span>二代健保 (2.11%)：</span><span class="tax-val" id="healthTax">-$0</span></div>
+            <div class="tax-item"><span>所得稅預扣 (5%)：</span><span class="tax-val" id="incomeTax">-$0</span></div>
         </div>
     </div>
 
-    <div class="privacy-statement">
+    <div class="privacy-box">
         <span class="privacy-title">🔒 主播隱私安全聲明：</span>
-        本工具僅供主播試算方便使用，開發者 我男朋友來了<span style="color:white;">不涉及、不讀取且不存檔</span>任何主播的收益數據。
-        <br><br>
-        若您發現有心人士持有本連結並可能計算您的收益狀況，請立即透過下方表單告知，我將會<span style="color:white;">更改網址</span>並私下重新提供給各位主播。
+        本工具僅供試算方便使用，開發者我男朋友來了<span style="color:white;">不涉及且不存檔</span>任何數據。
+        若發現連結有非主播使用不想被計算收益，請透過下方聯繫我變更網址重新提供。
     </div>
 
     <div class="contact-form">
-        <label>GN主播名</label>
-        <input type="text" id="contactName" placeholder="GN主播名">
+        <label>稱呼</label>
+        <input type="text" id="contactName" placeholder="稱呼">
         <label style="margin-top:10px;">回報內容</label>
         <textarea id="contactMsg" rows="3" placeholder="請說明情況..."></textarea>
-        <button class="btn-send" onclick="sendMail()">發送郵件</button>
+        <button id="sendBtn" class="btn-send" onclick="sendMail()">🚀 發送回報</button>
     </div>
 
     <div class="note">
@@ -108,7 +120,10 @@
 
 <script>
     let currentRate = 1.5;
+    let currentLvl = 8;
+
     function selectLvl(lvl, rate) {
+        currentLvl = lvl;
         currentRate = rate;
         document.querySelectorAll('.btn-lvl').forEach((btn, index) => {
             btn.classList.toggle('active', index === lvl - 1);
@@ -119,6 +134,8 @@
     function calculate() {
         const charm = parseFloat(document.getElementById('charm').value) || 0;
         const gross = (charm / 8) * currentRate;
+        
+        // 稅務邏輯
         let healthTax = gross >= 27470 ? Math.round(gross * 0.0211) : 0;
         let incomeTax = gross >= 88501 ? Math.round(gross * 0.05) : 0;
         const net = Math.floor(gross - healthTax - incomeTax);
@@ -130,13 +147,29 @@
     }
 
     function sendMail() {
+        const btn = document.getElementById('sendBtn');
         const name = document.getElementById('contactName').value;
         const msg = document.getElementById('contactMsg').value;
+
         if(!name || !msg) { alert('請填寫稱呼與內容'); return; }
-        
-        const subject = encodeURIComponent("GN主播收益計算機安全回報");
-        const body = encodeURIComponent(`主播稱呼：${name}\n內容：${msg}`);
-        window.location.href = `mailto:snake60202@gmail.com?subject=${subject}&body=${body}`;
+
+        btn.innerText = "傳送中...";
+        btn.disabled = true;
+
+        // 請更換成你自己的 Service ID 與 Template ID
+        emailjs.send("service_ftxzhbu", "template_905rmdk", {
+            from_name: name,
+            message: msg
+        }).then(() => {
+            alert("傳送成功！我會儘快處理並保護您的隱私。");
+            document.getElementById('contactName').value = "";
+            document.getElementById('contactMsg').value = "";
+            btn.innerText = "🚀 靜默發送安全回報";
+            btn.disabled = false;
+        }, (err) => {
+            alert("傳送失敗，請稍後再試。");
+            btn.disabled = false;
+        });
     }
 </script>
 
