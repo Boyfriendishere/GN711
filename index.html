@@ -11,535 +11,599 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://boyfriendishere.github.io/GN711/GN711-OG-banner.png">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() { emailjs.init("EzhO0x-IABJW4a3Om"); })();
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>(function(){emailjs.init("EzhO0x-IABJW4a3Om");})();</script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7EGM9LV95F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-7EGM9LV95F');
-    </script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7EGM9LV95F');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --blue: #0ea5e9;
-            --cyan: #22d3ee;
-            --cyan-bright: #67e8f9;
-            --cyan-glow: rgba(34, 211, 238, 0.45);
-            --cyan-dim: rgba(34, 211, 238, 0.14);
-            --cyan-border: rgba(34, 211, 238, 0.32);
-            --danger: #ff7675;
-            --danger-dim: rgba(255, 118, 117, 0.08);
-            --danger-border: rgba(255, 118, 117, 0.25);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-hi: rgba(255, 255, 255, 0.09);
-            --border: rgba(255, 255, 255, 0.11);
-            --t1: rgba(255,255,255,0.94);
-            --t2: rgba(255,255,255,0.52);
-            --t3: rgba(255,255,255,0.24);
+        :root{
+            --blue:#0ea5e9;--cyan:#22d3ee;--cyan-bright:#67e8f9;
+            --cyan-border:rgba(34,211,238,0.32);
+            --danger:#ff7675;--danger-dim:rgba(255,118,117,0.08);--danger-border:rgba(255,118,117,0.25);
+            --border:rgba(255,255,255,0.11);
+            --t1:rgba(255,255,255,0.94);--t2:rgba(255,255,255,0.52);--t3:rgba(255,255,255,0.24);
+            --ag:#f59e0b;--ag-dim:rgba(245,158,11,0.1);--ag-border:rgba(245,158,11,0.3);
         }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Noto Sans TC',sans-serif;min-height:100vh;background:linear-gradient(135deg,#0d2137 0%,#071018 45%,#030608 100%);color:var(--t1);display:flex;justify-content:center;align-items:flex-start;padding:52px 20px 88px;overflow-x:hidden;position:relative;}
+        .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px);}
+        .orb-1{width:650px;height:520px;background:radial-gradient(circle,rgba(14,165,233,0.28) 0%,rgba(6,182,212,0.12) 45%,transparent 70%);top:-150px;right:-160px;animation:drift 14s ease-in-out infinite alternate;}
+        .orb-2{width:420px;height:380px;background:radial-gradient(circle,rgba(0,206,201,0.16) 0%,transparent 70%);bottom:5%;left:-80px;animation:drift 18s ease-in-out infinite alternate-reverse;}
+        .orb-3{width:280px;height:280px;background:radial-gradient(circle,rgba(56,189,248,0.12) 0%,transparent 70%);top:38%;right:5%;animation:drift 11s ease-in-out infinite alternate;}
+        @keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(-25px,35px) scale(1.07);}}
+        @keyframes fadein{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .card{position:relative;z-index:1;width:100%;max-width:460px;background:rgba(10,20,35,0.65);border:1px solid var(--border);border-radius:36px;padding:48px 34px 44px;backdrop-filter:blur(48px) saturate(180%);-webkit-backdrop-filter:blur(48px) saturate(180%);box-shadow:0 0 0 1px rgba(255,255,255,0.06) inset,0 50px 100px rgba(0,0,0,0.6),0 0 100px rgba(34,211,238,0.07);animation:fadein .75s cubic-bezier(.22,1,.36,1) both;}
+        .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(34,211,238,0.65),transparent);}
+        .card::after{content:'';position:absolute;top:0;left:0;right:0;height:200px;background:linear-gradient(180deg,rgba(34,211,238,0.06) 0%,transparent 100%);border-radius:36px 36px 0 0;pointer-events:none;}
 
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0d2137 0%, #071018 45%, #030608 100%);
-            color: var(--t1);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 52px 20px 88px;
-            overflow-x: hidden;
-            position: relative;
-        }
+        h1{font-family:'Sora',sans-serif;background:linear-gradient(135deg,#fff 10%,var(--cyan-bright) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;font-size:1.75rem;margin-bottom:44px;font-weight:800;letter-spacing:2px;position:relative;z-index:1;}
+        h1::after{content:'';display:block;width:36px;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);margin:14px auto 0;border-radius:2px;}
 
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(80px);
-        }
-        .orb-1 {
-            width: 650px; height: 520px;
-            background: radial-gradient(circle, rgba(14,165,233,0.28) 0%, rgba(6,182,212,0.12) 45%, transparent 70%);
-            top: -150px; right: -160px;
-            animation: orb-drift 14s ease-in-out infinite alternate;
-        }
-        .orb-2 {
-            width: 420px; height: 380px;
-            background: radial-gradient(circle, rgba(0,206,201,0.16) 0%, transparent 70%);
-            bottom: 5%; left: -80px;
-            animation: orb-drift 18s ease-in-out infinite alternate-reverse;
-        }
-        .orb-3 {
-            width: 280px; height: 280px;
-            background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%);
-            top: 38%; right: 5%;
-            animation: orb-drift 11s ease-in-out infinite alternate;
-        }
+        lbl-u{font-family:'Sora',sans-serif;color:var(--t2);font-size:0.7rem;font-weight:600;margin-left:2px;margin-bottom:10px;display:block;text-transform:uppercase;letter-spacing:2px;}
+        label{font-family:'Sora',sans-serif;color:var(--t2);font-size:0.7rem;font-weight:600;margin-left:2px;margin-bottom:10px;display:block;text-transform:uppercase;letter-spacing:2px;}
+        .ig{margin-bottom:28px;}
 
-        @keyframes orb-drift {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(-25px, 35px) scale(1.07); }
-        }
+        .inp{width:100%;padding:17px 22px;border-radius:18px;border:1px solid rgba(255,255,255,0.07);background:rgba(0,0,0,0.28);color:white;font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:300;box-sizing:border-box;outline:none;transition:border-color .3s,box-shadow .3s,background .3s;backdrop-filter:blur(12px);-webkit-appearance:none;-moz-appearance:textfield;}
+        .inp::-webkit-outer-spin-button,.inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+        .inp:focus{border-color:var(--cyan-border);background:rgba(0,0,0,0.42);box-shadow:0 0 0 3px rgba(0,206,201,0.09);}
+        .inp.sm{padding:11px 14px;border-radius:12px;font-size:1rem;border:1px solid rgba(255,255,255,0.08);}
+        .inp.sm:focus{border-color:var(--ag-border);box-shadow:0 0 0 2px rgba(245,158,11,0.12);}
+        textarea.inp{resize:none;font-size:0.95rem;font-weight:400;line-height:1.65;}
 
-        .card {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 460px;
-            background: rgba(10, 20, 35, 0.65);
-            border: 1px solid var(--border);
-            border-radius: 36px;
-            padding: 48px 34px 44px;
-            backdrop-filter: blur(48px) saturate(180%);
-            -webkit-backdrop-filter: blur(48px) saturate(180%);
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.06) inset,
-                0 50px 100px rgba(0,0,0,0.6),
-                0 0 100px rgba(34,211,238,0.07);
-            animation: card-in 0.75s cubic-bezier(0.22,1,0.36,1) both;
-        }
+        .lvl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px;}
+        .btn-lvl{background:rgba(255,255,255,0.03);color:var(--t2);border:1px solid rgba(255,255,255,0.07);padding:15px 0;border-radius:15px;font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);}
+        .btn-lvl:hover{background:rgba(0,206,201,0.08);border-color:rgba(0,206,201,0.2);color:#fff;transform:translateY(-1px);}
+        .btn-lvl.active{background:linear-gradient(135deg,var(--blue),var(--cyan));color:white;border:none;box-shadow:0 10px 28px rgba(0,206,201,0.35);transform:translateY(-3px);}
 
-        @keyframes card-in {
-            from { opacity: 0; transform: translateY(32px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
+        .mode-sw{display:flex;gap:8px;margin-top:16px;background:rgba(0,0,0,0.25);border-radius:16px;padding:6px;border:1px solid rgba(255,255,255,0.06);}
+        .mode-btn{flex:1;padding:11px 0;border-radius:11px;border:none;font-family:'Sora',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);background:transparent;color:var(--t2);letter-spacing:.5px;}
+        .mode-btn.on-off{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;box-shadow:0 6px 20px rgba(0,206,201,0.3);}
+        .mode-btn.on-ag{background:linear-gradient(135deg,#d97706,var(--ag));color:#fff;box-shadow:0 6px 20px rgba(245,158,11,0.3);}
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 10%; right: 10%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(34,211,238,0.65), transparent);
-            border-radius: 50%;
-        }
+        /* 結果面板 */
+        .res-panel{margin-top:16px;border-radius:26px;overflow:hidden;border:1px solid var(--cyan-border);background:rgba(0,206,201,0.04);backdrop-filter:blur(24px);box-shadow:0 0 50px rgba(0,206,201,0.06),0 0 0 1px rgba(255,255,255,0.03) inset;}
+        .res-panel.ag{border-color:var(--ag-border);background:rgba(245,158,11,0.04);}
+        .res-hd{padding:28px 24px 20px;text-align:center;position:relative;}
+        .res-hd::after{content:'';position:absolute;bottom:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,206,201,0.2),transparent);}
+        .ag .res-hd::after{background:linear-gradient(90deg,transparent,rgba(245,158,11,0.2),transparent);}
+        .res-lbl{font-family:'Sora',sans-serif;font-size:0.68rem;color:var(--t2);letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:10px;}
+        .res-num{font-family:'Sora',sans-serif;font-size:3.2rem;font-weight:800;color:var(--cyan-bright);text-shadow:0 0 50px rgba(0,229,224,0.45);display:block;line-height:1;letter-spacing:-1px;word-break:break-all;}
+        .res-num.ag{color:var(--ag);text-shadow:0 0 50px rgba(245,158,11,0.4);}
+        .details{padding:20px 24px 8px;}
+        .row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.88rem;color:var(--t2);}
+        .row:last-child{border-bottom:none;}
+        .vw{color:var(--t1);font-weight:600;font-family:'Sora',sans-serif;}
+        .vd{color:var(--danger);font-weight:600;font-family:'Sora',sans-serif;}
+        .va{color:var(--ag);font-weight:600;font-family:'Sora',sans-serif;}
 
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 200px;
-            background: linear-gradient(180deg, rgba(34,211,238,0.06) 0%, transparent 100%);
-            border-radius: 36px 36px 0 0;
-            pointer-events: none;
-        }
+        /* 經紀公司區塊 */
+        .ag-sec{display:none;}
+        .ag-box{background:var(--ag-dim);border:1px solid var(--ag-border);border-radius:20px;padding:18px 20px;margin-bottom:20px;animation:fadein .4s cubic-bezier(.22,1,.36,1) both;}
+        .ag-title{font-family:'Sora',sans-serif;font-size:0.7rem;font-weight:700;color:var(--ag);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+        .ag-divider{height:1px;background:rgba(255,255,255,0.06);margin:14px 0;}
 
-        h1 {
-            font-family: 'Sora', sans-serif;
-            background: linear-gradient(135deg, #ffffff 10%, var(--cyan-bright) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
-            font-size: 1.75rem;
-            margin-bottom: 44px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 1;
-        }
+        /* 分潤欄位 */
+        .party-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+        .pty-row{display:flex;align-items:center;gap:10px;}
+        .pty-badge{flex-shrink:0;width:76px;text-align:right;font-size:0.78rem;color:var(--t2);font-family:'Sora',sans-serif;font-weight:600;white-space:nowrap;}
+        .pty-badge.streamer{color:var(--ag);}
+        .pty-pct{width:78px;flex-shrink:0;padding:11px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:white;font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;text-align:center;outline:none;transition:border-color .3s;-webkit-appearance:none;}
+        .pty-pct:focus{border-color:var(--ag-border);box-shadow:0 0 0 2px rgba(245,158,11,0.15);}
+        .pty-unit{font-size:0.85rem;color:var(--t3);flex-shrink:0;}
+        .pty-del{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--t3);font-size:0.78rem;cursor:pointer;flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+        .pty-del:hover{background:rgba(255,118,117,0.15);border-color:rgba(255,118,117,0.4);color:var(--danger);}
+        .pty-spacer{width:30px;flex-shrink:0;}
 
-        h1::after {
-            content: '';
-            display: block;
-            width: 36px; height: 2px;
-            background: linear-gradient(90deg, var(--cyan), transparent);
-            margin: 14px auto 0;
-            border-radius: 2px;
-        }
+        .total-bar{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-radius:12px;background:rgba(0,0,0,0.2);margin-bottom:12px;}
+        .total-lbl{font-size:0.78rem;color:var(--t2);}
+        .total-val{font-family:'Sora',sans-serif;font-size:0.92rem;font-weight:800;}
+        .total-val.ok{color:#10b981;}.total-val.warn{color:var(--danger);}
 
-        label {
-            font-family: 'Sora', sans-serif;
-            color: var(--t2);
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-left: 2px;
-            margin-bottom: 10px;
-            display: block;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        .btn-add{width:100%;padding:10px;border-radius:12px;border:1.5px dashed rgba(245,158,11,0.35);background:transparent;color:var(--ag);font-family:'Sora',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .25s;margin-bottom:0;}
+        .btn-add:hover{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.55);}
+        .btn-add:disabled{opacity:.3;cursor:not-allowed;}
 
-        .input-group { margin-bottom: 30px; }
+        /* 開關列 */
+        .tog-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+        .tog-label{font-size:0.8rem;color:var(--t2);min-width:60px;}
+        .tog-sw{position:relative;width:44px;height:24px;flex-shrink:0;}
+        .tog-sw input{opacity:0;width:0;height:0;}
+        .tog-sl{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,0.1);border-radius:24px;transition:.3s;}
+        .tog-sl::before{position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.3s;}
+        .tog-sw input:checked+.tog-sl{background:var(--ag);}
+        .tog-sw input:checked+.tog-sl::before{transform:translateX(20px);}
+        .tog-status{font-size:0.75rem;color:var(--t3);}
 
-        input[type="number"], textarea {
-            width: 100%;
-            padding: 17px 22px;
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.07);
-            background: rgba(0,0,0,0.28);
-            color: white;
-            font-family: 'Sora', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 300;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-            backdrop-filter: blur(12px);
-        }
+        .extra-wrap{display:none;margin-bottom:12px;}
+        .frow{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+        .frow:last-child{margin-bottom:0;}
+        .flbl{font-size:0.75rem;color:var(--t2);white-space:nowrap;min-width:52px;}
+        .funit{font-size:0.78rem;color:var(--t3);white-space:nowrap;}
 
-        input[type="number"]:focus, textarea:focus {
-            border-color: var(--cyan-border);
-            background: rgba(0,0,0,0.42);
-            box-shadow: 0 0 0 3px rgba(0,206,201,0.09), 0 0 24px rgba(0,206,201,0.07);
-        }
+        /* 固定支出多筆 */
+        .expense-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
+        .exp-row{display:flex;gap:8px;align-items:center;}
+        .exp-del{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--t3);font-size:0.72rem;cursor:pointer;flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+        .exp-del:hover{background:rgba(255,118,117,0.15);border-color:rgba(255,118,117,0.4);color:var(--danger);}
+        .btn-add-exp{background:transparent;border:1px dashed rgba(255,255,255,0.15);border-radius:10px;padding:8px;color:var(--t2);font-family:'Sora',sans-serif;font-size:0.78rem;cursor:pointer;transition:all .2s;width:100%;}
+        .btn-add-exp:hover{border-color:rgba(255,255,255,0.3);color:var(--t1);}
+        .exp-total{font-size:0.78rem;color:var(--danger);font-family:'Sora',sans-serif;font-weight:600;text-align:right;margin-top:4px;}
 
-        textarea {
-            resize: none;
-            font-size: 0.95rem;
-            font-weight: 400;
-            line-height: 1.65;
-        }
+        /* 稅務選項 */
+        .sec-lbl{font-size:0.72rem;color:var(--t2);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-family:'Sora',sans-serif;font-weight:700;}
+        .tax-opts{display:flex;flex-direction:column;gap:7px;}
+        .tax-opt{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);cursor:pointer;transition:all .2s;}
+        .tax-opt:hover{border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.05);}
+        .tax-opt input[type="radio"]{margin-top:3px;flex-shrink:0;accent-color:var(--ag);}
+        .opt-t{font-size:0.82rem;color:var(--t1);font-weight:600;display:block;margin-bottom:2px;}
+        .opt-d{font-size:0.7rem;color:var(--t3);line-height:1.5;}
+        .sub-wrap{display:none;margin-top:10px;padding:12px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid rgba(255,255,255,0.06);}
+        .sub-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+        .sub-row:last-child{margin-bottom:0;}
+        .sub-lbl{font-size:0.72rem;color:var(--t2);min-width:90px;}
 
-        .level-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .btn-lvl {
-            background: rgba(255,255,255,0.03);
-            color: var(--t2);
-            border: 1px solid rgba(255,255,255,0.07);
-            padding: 15px 0;
-            border-radius: 15px;
-            font-family: 'Sora', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-            backdrop-filter: blur(8px);
-        }
-
-        .btn-lvl:hover {
-            background: rgba(0,206,201,0.08);
-            border-color: rgba(0,206,201,0.2);
-            color: #fff;
-            transform: translateY(-1px);
-        }
-
-        .btn-lvl.active {
-            background: linear-gradient(135deg, var(--blue), var(--cyan));
-            color: white;
-            border: none;
-            box-shadow: 0 10px 28px rgba(0,206,201,0.35), 0 0 0 1px rgba(0,230,225,0.2) inset;
-            transform: translateY(-3px);
-        }
-
-        .result-panel {
-            margin-top: 10px;
-            border-radius: 26px;
-            overflow: hidden;
-            border: 1px solid var(--cyan-border);
-            background: rgba(0,206,201,0.04);
-            backdrop-filter: blur(24px);
-            box-shadow: 0 0 50px rgba(0,206,201,0.06), 0 0 0 1px rgba(255,255,255,0.03) inset;
-        }
-
-        .res-header {
-            padding: 32px 24px 24px;
-            text-align: center;
-            position: relative;
-        }
-
-        .res-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 20px; right: 20px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0,206,201,0.2), transparent);
-        }
-
-        .res-label {
-            font-family: 'Sora', sans-serif;
-            font-size: 0.68rem;
-            color: var(--t2);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .res-money {
-            font-family: 'Sora', sans-serif;
-            font-size: 3.4rem;
-            font-weight: 800;
-            color: var(--cyan-bright);
-            text-shadow: 0 0 50px rgba(0,229,224,0.45);
-            display: block;
-            line-height: 1;
-            letter-spacing: -1px;
-        }
-
-        .details { padding: 22px 24px 8px; }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            font-size: 0.88rem;
-            color: var(--t2);
-        }
-
-        .row:last-child { border-bottom: none; }
-        .row .val-white { color: var(--t1); font-weight: 600; font-family: 'Sora', sans-serif; }
-        .tax-val { color: var(--danger); font-weight: 600; font-family: 'Sora', sans-serif; }
-
-        .section-gap {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-            margin: 36px 0;
-        }
-
-        .privacy-box {
-            background: var(--danger-dim);
-            border: 1px dashed var(--danger-border);
-            padding: 22px 24px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            color: var(--t2);
-            line-height: 1.9;
-            backdrop-filter: blur(8px);
-        }
-
-        .disc-title {
-            color: var(--danger);
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 0.78rem;
-            letter-spacing: 0.5px;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .contact-form { margin-top: 32px; }
-
-        .contact-form input[type="text"] {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.07);
-            background: rgba(0,0,0,0.28);
-            color: white;
-            font-family: 'Sora', sans-serif;
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            backdrop-filter: blur(12px);
-            margin-bottom: 16px;
-        }
-
-        .contact-form input[type="text"]:focus {
-            border-color: var(--cyan-border);
-            box-shadow: 0 0 0 3px rgba(0,206,201,0.09);
-        }
-
-        .btn-send {
-            width: 100%;
-            background: transparent;
-            color: var(--cyan);
-            border: 1.5px solid var(--cyan-border);
-            padding: 17px;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 8px;
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            letter-spacing: 1.5px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-send::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0,206,201,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-send:hover::before { left: 100%; }
-
-        .btn-send:hover {
-            background: linear-gradient(135deg, var(--blue), var(--cyan));
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 8px 30px rgba(0,206,201,0.35);
-            transform: translateY(-2px);
-        }
-
-        .btn-send:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .note {
-            font-size: 0.7rem;
-            color: var(--t3);
-            margin-top: 48px;
-            text-align: center;
-            line-height: 2.2;
-            letter-spacing: 0.3px;
-        }
-
-        .thanks {
-            color: rgba(9,132,227,0.55);
-            font-weight: 700;
-            margin-top: 14px;
-            font-size: 0.72rem;
-            letter-spacing: 0.5px;
-        }
-
-        .input-group, .result-panel, .privacy-box, .contact-form {
-            animation: fade-up 0.6s cubic-bezier(0.22,1,0.36,1) both;
-        }
-        .input-group:nth-child(1) { animation-delay: 0.08s; }
-        .input-group:nth-child(2) { animation-delay: 0.14s; }
-        .result-panel            { animation-delay: 0.2s; }
-        .privacy-box             { animation-delay: 0.26s; }
-        .contact-form            { animation-delay: 0.32s; }
-
-        @keyframes fade-up {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+        /* 底部 */
+        .sec-gap{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);margin:32px 0;}
+        .privacy{background:var(--danger-dim);border:1px dashed var(--danger-border);padding:22px 24px;border-radius:20px;font-size:0.82rem;color:var(--t2);line-height:1.9;}
+        .disc{color:var(--danger);font-family:'Sora',sans-serif;font-weight:700;font-size:0.78rem;display:block;margin-bottom:10px;}
+        .cform{margin-top:32px;}
+        .cform .inp{padding:15px 20px;border-radius:16px;font-size:0.95rem;margin-bottom:16px;}
+        .btn-send{width:100%;background:transparent;color:var(--cyan);border:1.5px solid var(--cyan-border);padding:17px;border-radius:50px;cursor:pointer;margin-top:8px;font-family:'Sora',sans-serif;font-weight:700;font-size:0.95rem;transition:all .3s;letter-spacing:1.5px;position:relative;overflow:hidden;}
+        .btn-send::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,206,201,0.1),transparent);transition:left .5s;}
+        .btn-send:hover::before{left:100%;}
+        .btn-send:hover{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border-color:transparent;box-shadow:0 8px 30px rgba(0,206,201,0.35);transform:translateY(-2px);}
+        .btn-send:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+        .note{font-size:0.7rem;color:var(--t3);margin-top:48px;text-align:center;line-height:2.2;}
+        .thanks{color:rgba(9,132,227,0.55);font-weight:700;margin-top:14px;font-size:0.72rem;}
+        .ig,.res-panel,.privacy,.cform{animation:fadein .6s cubic-bezier(.22,1,.36,1) both;}
+        .ig:nth-child(1){animation-delay:.08s;}.ig:nth-child(2){animation-delay:.14s;}
+        .res-panel{animation-delay:.2s;}.privacy{animation-delay:.26s;}.cform{animation-delay:.32s;}
     </style>
 </head>
-<body onload="calculate()">
-
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-
+<body onload="init()">
+    <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
     <div class="card">
         <h1>⭐主播收益計算</h1>
 
-        <div class="input-group">
+        <div class="ig">
             <label>魅力值 (Charm)</label>
-            <input type="number" id="charm" value="0" oninput="calculate()" onclick="this.select()">
+            <input class="inp" id="charm" type="number" value="0" min="0" oninput="calc()" onclick="this.select()">
         </div>
 
-        <div class="input-group">
+        <div class="ig">
             <label>直播房等級 (Room Level)</label>
-            <div class="level-grid">
-                <button class="btn-lvl" onclick="selectLvl(1, 0.6)">✨ 1 等</button>
-                <button class="btn-lvl" onclick="selectLvl(2, 1.2)">✨ 2 等</button>
-                <button class="btn-lvl" onclick="selectLvl(3, 1.25)">✨ 3 等</button>
-                <button class="btn-lvl" onclick="selectLvl(4, 1.3)">✨ 4 等</button>
-                <button class="btn-lvl" onclick="selectLvl(5, 1.35)">✨ 5 等</button>
-                <button class="btn-lvl" onclick="selectLvl(6, 1.4)">✨ 6 等</button>
-                <button class="btn-lvl" onclick="selectLvl(7, 1.45)">✨ 7 等</button>
-                <button class="btn-lvl active" onclick="selectLvl(8, 1.5)">✨ 8 等</button>
+            <div class="lvl-grid">
+                <button class="btn-lvl" onclick="setLvl(1,0.6)">✨ 1 等</button>
+                <button class="btn-lvl" onclick="setLvl(2,1.2)">✨ 2 等</button>
+                <button class="btn-lvl" onclick="setLvl(3,1.25)">✨ 3 等</button>
+                <button class="btn-lvl" onclick="setLvl(4,1.3)">✨ 4 等</button>
+                <button class="btn-lvl" onclick="setLvl(5,1.35)">✨ 5 等</button>
+                <button class="btn-lvl" onclick="setLvl(6,1.4)">✨ 6 等</button>
+                <button class="btn-lvl" onclick="setLvl(7,1.45)">✨ 7 等</button>
+                <button class="btn-lvl active" onclick="setLvl(8,1.5)">✨ 8 等</button>
+            </div>
+            <div class="mode-sw">
+                <button class="mode-btn on-off" id="btnOff" onclick="setMode('off')">🎙️ 官方簽約</button>
+                <button class="mode-btn" id="btnAg"  onclick="setMode('ag')">🏢 經紀公司</button>
             </div>
         </div>
 
-        <div class="result-panel">
-            <div class="res-header">
-                <div class="res-label">預計實領</div>
-                <span class="res-money" id="netIncome">$0</span>
+        <!-- 經紀公司設定 -->
+        <div class="ag-sec" id="agSec">
+            <div class="ag-box">
+
+                <!-- 分潤 -->
+                <div class="ag-title">分潤設定</div>
+                <div class="party-rows" id="partyRows"></div>
+                <div class="total-bar">
+                    <span class="total-lbl">合計</span>
+                    <span><span class="total-val" id="totVal">100</span><span id="totHint" style="font-size:0.72rem;margin-left:6px;"></span></span>
+                </div>
+                <button class="btn-add" id="btnAdd" onclick="addPty()">＋ 新增分潤方</button>
+
+                <div class="ag-divider"></div>
+
+                <!-- 固定底薪 -->
+                <div class="tog-row">
+                    <span class="tog-label">固定底薪</span>
+                    <label class="tog-sw"><input type="checkbox" id="hasSal" onchange="togExtra('sal')"><span class="tog-sl"></span></label>
+                    <span class="tog-status" id="salSt">無</span>
+                </div>
+                <div class="extra-wrap" id="salWrap">
+                    <div class="frow">
+                        <span class="flbl">月底薪</span>
+                        <input class="inp sm" id="baseSal" type="number" value="0" min="0" placeholder="例如 35000" oninput="calc()" onclick="this.select()">
+                        <span class="funit">元</span>
+                    </div>
+                </div>
+
+                <!-- 固定支出 -->
+                <div class="tog-row">
+                    <span class="tog-label">固定支出</span>
+                    <label class="tog-sw"><input type="checkbox" id="hasExp" onchange="togExtra('exp')"><span class="tog-sl"></span></label>
+                    <span class="tog-status" id="expSt">無</span>
+                </div>
+                <div class="extra-wrap" id="expWrap">
+                    <div class="expense-list" id="expList"></div>
+                    <button class="btn-add-exp" onclick="addExp()">＋ 新增支出項目</button>
+                    <div class="exp-total" id="expTotal" style="display:none;"></div>
+                </div>
+
+                <div class="ag-divider"></div>
+
+                <!-- 稅務 -->
+                <div class="sec-lbl">稅務處理方式</div>
+                <div class="tax-opts">
+
+                    <!-- 平台預扣 -->
+                    <label class="tax-opt">
+                        <input type="radio" name="tx" value="plat" checked onchange="onTxChange()">
+                        <div>
+                            <span class="opt-t">平台已預扣</span>
+                            <span class="opt-d">平台以原始收益為基準扣稅，主播拿到已是稅後分潤</span>
+                        </div>
+                    </label>
+
+                    <!-- 經紀公司代扣 -->
+                    <label class="tax-opt">
+                        <input type="radio" name="tx" value="ag" onchange="onTxChange()">
+                        <div>
+                            <span class="opt-t">經紀公司代為處理</span>
+                            <span class="opt-d">以主播分潤（+底薪）為基準扣稅，由經紀公司代扣</span>
+                            <div class="sub-wrap" id="agTaxSub">
+                                <div class="sub-row">
+                                    <span class="sub-lbl">健保補充費</span>
+                                    <input class="inp sm" id="agH" type="text" value="2.11" oninput="calc()" onclick="this.select()" style="max-width:90px;">
+                                    <span class="funit">%</span>
+                                </div>
+                                <div class="sub-row">
+                                    <span class="sub-lbl">所得稅扣繳率</span>
+                                    <input class="inp sm" id="agI" type="text" value="5.00" oninput="calc()" onclick="this.select()" style="max-width:90px;">
+                                    <span class="funit">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 不計算 -->
+                    <label class="tax-opt">
+                        <input type="radio" name="tx" value="none" onchange="onTxChange()">
+                        <div>
+                            <span class="opt-t">不計算稅務</span>
+                            <span class="opt-d">直接顯示分潤後金額，稅務由他方處理或自行計算</span>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果面板 -->
+        <div class="res-panel" id="resPanel">
+            <div class="res-hd">
+                <div class="res-lbl" id="resLbl">預計實領</div>
+                <span class="res-num" id="netNum">$0</span>
             </div>
             <div class="details">
-                <div class="row">
-                    <span>原始收益估計</span>
-                    <span class="val-white" id="grossIncome">$0</span>
+                <!-- 官方模式 -->
+                <div id="offRows">
+                    <div class="row"><span>原始收益估計</span><span class="vw" id="oGross">$0</span></div>
+                    <div class="row"><span>二代健保 (2.11%)</span><span class="vd" id="oHTax">-$0</span></div>
+                    <div class="row"><span>預扣所得稅 (5.00%)</span><span class="vd" id="oITax">-$0</span></div>
                 </div>
-                <div class="row">
-                    <span>二代健保 (2.11%)</span>
-                    <span class="tax-val" id="healthTax">-$0</span>
-                </div>
-                <div class="row">
-                    <span>預扣所得稅 (5.00%)</span>
-                    <span class="tax-val" id="incomeTax">-$0</span>
+                <!-- 經紀公司模式 -->
+                <div id="agRows" style="display:none;">
+                    <div class="row"><span>原始收益估計</span><span class="vw" id="aGross">$0</span></div>
+                    <div class="row"><span>主播分潤 <span id="aPct" style="color:var(--ag);font-size:0.78rem;"></span></span><span class="va" id="aSplit">$0</span></div>
+                    <div class="row" id="aSalRow" style="display:none;"><span>固定底薪</span><span class="va" id="aSal">+$0</span></div>
+                    <div class="row" id="aExpRow" style="display:none;"><span>固定支出合計</span><span class="vd" id="aExp">-$0</span></div>
+                    <div class="row" id="aTaxRow" style="display:none;"><span id="aTaxLbl">稅務扣除</span><span class="vd" id="aTax">-$0</span></div>
+                    <div class="row" style="border-top:1px solid rgba(255,255,255,0.08);margin-top:4px;padding-top:14px;">
+                        <span style="font-weight:700;color:var(--t1);">實領估算</span>
+                        <span class="va" style="font-size:1.05rem;" id="aNet">$0</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="section-gap"></div>
+        <div class="sec-gap"></div>
 
-        <div class="privacy-box">
-            <span class="disc-title">免責聲明</span>
+        <div class="privacy">
+            <span class="disc">免責聲明</span>
             本工具僅供主播試算使用，開發者不存取任何收益數據<br>
-            實際金額依官方為主<br>
-            若經紀約相關請再自行計算<br>
+            實際金額依官方及合約為主<br>
+            <span style="color:var(--ag);font-weight:600;">若為正職員工，需另考量勞保、健保級距及眷屬加保等，本工具不納入計算，數字僅供參考</span><br>
+            經紀公司約各家條件不同，分潤比例與稅務處理方式請以實際合約為準<br>
             有系統問題或疑慮請透過下方告知
         </div>
 
-        <div class="contact-form">
+        <div class="cform">
             <label>名稱</label>
-            <input type="text" id="contactName" placeholder="初次見面😀">
+            <input class="inp" type="text" id="cName" placeholder="初次見面😀">
             <label>內容</label>
-            <textarea id="contactMsg" rows="2" placeholder="喜歡你的聲音❤️"></textarea>
-            <button id="sendBtn" class="btn-send" onclick="sendMail()">🚀Send</button>
+            <textarea class="inp" id="cMsg" rows="2" placeholder="喜歡你的聲音❤️"></textarea>
+            <button id="sendBtn" class="btn-send" onclick="send()">🚀Send</button>
         </div>
 
         <div class="note">
-            我男朋友來了 | 2026.03.31
+            我男朋友來了 | 2026.05.09
             <div class="thanks">感謝 賈高賽 數據提供</div>
         </div>
     </div>
 
 <script>
-    let currentRate = 1.5;
+/* ══ 狀態 ══ */
+let lvlRate = 1.5;
+let mode = 'off';
+let parties = [
+    {label:'主播',     pct:50, active:true,  fixed:true},
+    {label:'經紀公司', pct:50, active:true,  fixed:true},
+    {label:'其他',     pct:0,  active:false, fixed:false},
+    {label:'其他',     pct:0,  active:false, fixed:false},
+];
+let expenses = []; // [{val}]
 
-    function selectLvl(lvl, rate) {
-        currentRate = rate;
-        document.querySelectorAll('.btn-lvl').forEach((btn, index) => {
-            btn.classList.toggle('active', index === lvl - 1);
-        });
-        calculate();
+/* ══ 千分位工具 ══ */
+function fmt(n){ return Math.floor(n).toLocaleString('zh-TW'); }
+function getRaw(id){
+    const v = document.getElementById(id).value;
+    return parseFloat(v.replace(/[^0-9.]/g,'')) || 0;
+}
+function getRawEl(el){
+    return parseFloat(el.value.replace(/[^0-9.]/g,'')) || 0;
+}
+function fmtInp(el){ /* 不再使用，保留避免報錯 */ }
+
+/* ══ 初始化 ══ */
+function init(){renderParties();calc();}
+
+/* ══ 等級 ══ */
+function setLvl(l,r){
+    lvlRate=r;
+    document.querySelectorAll('.btn-lvl').forEach((b,i)=>b.classList.toggle('active',i===l-1));
+    calc();
+}
+
+/* ══ 模式 ══ */
+function setMode(m){
+    mode=m; const isAg=m==='ag';
+    document.getElementById('btnOff').className='mode-btn'+(isAg?'':' on-off');
+    document.getElementById('btnAg').className ='mode-btn'+(isAg?' on-ag':'');
+    document.getElementById('agSec').style.display   =isAg?'block':'none';
+    document.getElementById('offRows').style.display =isAg?'none':'block';
+    document.getElementById('agRows').style.display  =isAg?'block':'none';
+    const rp=document.getElementById('resPanel'),nm=document.getElementById('netNum');
+    isAg?(rp.classList.add('ag'),nm.classList.add('ag')):(rp.classList.remove('ag'),nm.classList.remove('ag'));
+    calc();
+}
+
+/* ══ 分潤方渲染 ══ */
+function renderParties(){
+    const c=document.getElementById('partyRows'); c.innerHTML='';
+    const activePts=parties.filter(p=>p.active);
+    const twoOnly=activePts.length===2;
+    activePts.forEach(p=>{
+        const gi=parties.indexOf(p);
+        const row=document.createElement('div'); row.className='pty-row';
+        row.innerHTML=`
+            <span class="pty-badge${gi===0?' streamer':''}">${p.label}</span>
+            <input class="pty-pct" type="text" value="${p.pct}"
+                oninput="onPtyPct(this,${gi},${twoOnly})"
+                onclick="this.select()" inputmode="decimal" maxlength="5">
+            <span class="pty-unit">%</span>
+            ${p.fixed?'<div class="pty-spacer"></div>':`<button class="pty-del" onclick="delPty(${gi})">✕</button>`}`;
+        c.appendChild(row);
+    });
+    updateTotal();
+    document.getElementById('btnAdd').disabled=!parties.some(p=>!p.active);
+    document.getElementById('btnAdd').textContent=parties.some(p=>!p.active)?'＋ 新增分潤方':'最多 4 方';
+}
+
+function onPtyPct(el,gi,twoOnly){
+    let n=parseFloat(el.value)||0;
+    if(n>100){n=100;el.value='100';}
+    if(n<0){n=0;el.value='0';}
+    parties[gi].pct=n;
+    // 兩方互補
+    if(twoOnly){
+        const other=parties.find((p,i)=>p.active&&i!==gi);
+        if(other){
+            other.pct=Math.max(0,100-n);
+            // 更新另一個輸入框的顯示值
+            const rows=document.getElementById('partyRows').querySelectorAll('.pty-pct');
+            rows.forEach(inp=>{
+                const g=parseInt(inp.getAttribute('oninput').match(/onPtyPct\(this,(\d+)/)[1]);
+                if(g!==gi) inp.value=other.pct;
+            });
+        }
+    }
+    updateTotal(); calc();
+}
+
+function updateTotal(){
+    const tot=parties.filter(p=>p.active).reduce((s,p)=>s+p.pct,0);
+    const el=document.getElementById('totVal'), hint=document.getElementById('totHint');
+    el.textContent=parseFloat(tot.toFixed(1));
+    if(Math.abs(tot-100)<0.01){el.className='total-val ok';hint.textContent='✅ 合計 100%';}
+    else if(tot>100){el.className='total-val warn';hint.textContent=`⚠️ 超過 ${parseFloat((tot-100).toFixed(1))}%`;}
+    else{el.className='total-val warn';hint.textContent=`⚠️ 還差 ${parseFloat((100-tot).toFixed(1))}%`;}
+}
+
+function addPty(){
+    const idx=parties.findIndex(p=>!p.active);
+    if(idx===-1)return;
+    parties[idx].active=true; parties[idx].pct=0;
+    renderParties(); calc();
+}
+
+function delPty(gi){
+    if(parties[gi].fixed)return;
+    parties[gi].active=false; parties[gi].pct=0;
+    renderParties(); calc();
+}
+
+/* ══ 開關：底薪 / 支出 ══ */
+function togExtra(type){
+    if(type==='sal'){
+        const on=document.getElementById('hasSal').checked;
+        document.getElementById('salWrap').style.display=on?'block':'none';
+        document.getElementById('salSt').textContent=on?'有':'無';
+        document.getElementById('aSalRow').style.display=on?'flex':'none';
+        calc();
+    }else{
+        const on=document.getElementById('hasExp').checked;
+        document.getElementById('expWrap').style.display=on?'block':'none';
+        document.getElementById('expSt').textContent=on?'有':'無';
+        if(on&&expenses.length===0) addExp();
+        calc();
+    }
+}
+
+/* ══ 固定支出 ══ */
+function addExp(){
+    expenses.push({val:0});
+    renderExp();
+}
+function delExp(i){
+    expenses.splice(i,1);
+    renderExp(); calc();
+}
+function onExpInp(el,i){
+    expenses[i].val=getRawEl(el);
+    renderExpTotal(); calc();
+}
+function renderExp(){
+    const list=document.getElementById('expList'); list.innerHTML='';
+    expenses.forEach((e,i)=>{
+        const row=document.createElement('div'); row.className='exp-row';
+        row.innerHTML=`
+            <input class="inp sm" style="flex:1;" type="number" min="0" value="${e.val||0}"
+                placeholder="例如 3000"
+                oninput="onExpInp(this,${i})" onclick="this.select()">
+            <span class="funit">元</span>
+            <button class="exp-del" onclick="delExp(${i})">✕</button>`;
+        list.appendChild(row);
+    });
+    renderExpTotal();
+}
+function renderExpTotal(){
+    const tot=expenses.reduce((s,e)=>s+e.val,0);
+    const el=document.getElementById('expTotal');
+    if(expenses.length>1){el.style.display='block';el.textContent='合計 -$'+tot.toLocaleString('zh-TW');}
+    else{el.style.display='none';}
+}
+function totalExp(){return expenses.reduce((s,e)=>s+e.val,0);}
+
+/* ══ 稅務選項切換 → 立即重算 ══ */
+function onTxChange(){
+    const v=document.querySelector('input[name="tx"]:checked').value;
+    document.getElementById('agTaxSub').style.display=v==='ag'?'block':'none';
+    calc();
+}
+
+/* ══ 稅務計算 ══ */
+function getTax(base, txMode){
+    if(txMode==='plat'){
+        // 以原始收益為基準（官方邏輯）已在外部算好傳入 base=gross
+        const h=base>=27470?Math.round(base*0.0211):0;
+        const ii=base>=88501?Math.round(base*0.05):0;
+        return{tot:h+ii,h,i:ii,lbl:'稅務扣除（平台預扣）',show:true};
+    }
+    if(txMode==='ag'){
+        // 以主播分潤+底薪為基準
+        const hr=parseFloat(document.getElementById('agH').value)||0;
+        const ir=parseFloat(document.getElementById('agI').value)||0;
+        const h=Math.round(base*hr/100);
+        const ii=Math.round(base*ir/100);
+        return{tot:h+ii,h,i:ii,lbl:'稅務扣除（經紀代扣）',show:true};
+    }
+    return{tot:0,h:0,i:0,lbl:'',show:false}; // none
+}
+
+/* ══ 主計算 ══ */
+function calc(){
+    const charm=getRaw('charm');
+    const g=(charm/8)*lvlRate;
+
+    if(mode==='off'){
+        // 官方模式：以原始收益扣稅
+        const tx=getTax(g,'plat');
+        const net=Math.max(0,Math.floor(g-tx.tot));
+        document.getElementById('oGross').textContent='$'+fmt(g);
+        document.getElementById('oHTax').textContent='-$'+fmt(tx.h);
+        document.getElementById('oITax').textContent='-$'+fmt(tx.i);
+        document.getElementById('netNum').textContent='$'+fmt(net);
+        document.getElementById('resLbl').textContent='預計實領';
+        return;
     }
 
-    function calculate() {
-        const charm = parseFloat(document.getElementById('charm').value) || 0;
-        const gross = (charm / 8) * currentRate;
-        let hTax = gross >= 27470 ? Math.round(gross * 0.0211) : 0;
-        let iTax = gross >= 88501 ? Math.round(gross * 0.05) : 0;
-        const net = Math.floor(gross - hTax - iTax);
+    // 經紀公司模式
+    const txMode=document.querySelector('input[name="tx"]:checked')?.value||'plat';
+    const streamerPct=parties[0].pct;
+    document.getElementById('aPct').textContent=`主播 ${streamerPct}%`;
 
-        document.getElementById('grossIncome').innerText = '$' + Math.floor(gross).toLocaleString();
-        document.getElementById('healthTax').innerText = '-$' + hTax.toLocaleString();
-        document.getElementById('incomeTax').innerText = '-$' + iTax.toLocaleString();
-        document.getElementById('netIncome').innerText = '$' + (net < 0 ? 0 : net).toLocaleString();
+    let split, taxTotal=0, expAmt, net, sal;
+    sal = document.getElementById('hasSal').checked ? getRaw('baseSal') : 0;
+    expAmt = document.getElementById('hasExp').checked ? totalExp() : 0;
+
+    if(txMode==='plat'){
+        // 原始收益先扣稅，再分潤，再加底薪減支出
+        const h=g>=27470?Math.round(g*0.0211):0;
+        const ii=g>=88501?Math.round(g*0.05):0;
+        taxTotal=h+ii;
+        const afterTax=g-taxTotal;
+        split=afterTax*(streamerPct/100);
+        net=Math.max(0,Math.floor(split+sal-expAmt));
+        document.getElementById('aSplit').textContent='$'+fmt(split);
+        document.getElementById('aTaxLbl').textContent='平台稅務預扣';
+        document.getElementById('aTax').textContent='-$'+fmt(taxTotal);
+        document.getElementById('aTaxRow').style.display='flex';
+        document.getElementById('resLbl').textContent='預計實領';
+    } else if(txMode==='ag'){
+        // 原始收益直接分潤，主播那份再扣稅，再加底薪減支出
+        split=g*(streamerPct/100);
+        const taxBase=split+sal;
+        const h=taxBase>=27470?Math.round(taxBase*0.0211):0;
+        const ii=taxBase>=88501?Math.round(taxBase*0.05):0;
+        taxTotal=h+ii;
+        net=Math.max(0,Math.floor(split+sal-taxTotal-expAmt));
+        document.getElementById('aSplit').textContent='$'+fmt(split);
+        document.getElementById('aTaxLbl').textContent='稅務扣除（經紀代扣）';
+        document.getElementById('aTax').textContent='-$'+fmt(taxTotal);
+        document.getElementById('aTaxRow').style.display='flex';
+        document.getElementById('resLbl').textContent='預計實領';
+    } else {
+        // 不計算稅務，直接分潤加底薪減支出
+        split=g*(streamerPct/100);
+        taxTotal=0;
+        net=Math.max(0,Math.floor(split+sal-expAmt));
+        document.getElementById('aSplit').textContent='$'+fmt(split);
+        document.getElementById('aTaxRow').style.display='none';
+        document.getElementById('resLbl').textContent='分潤後金額（未含稅）';
     }
 
-    function sendMail() {
-        const btn = document.getElementById('sendBtn');
-        const name = document.getElementById('contactName').value;
-        const msg = document.getElementById('contactMsg').value;
-        if (!name || !msg) { alert('請完整填寫'); return; }
+    document.getElementById('aGross').textContent='$'+fmt(g);
+    document.getElementById('aSal').textContent='+$'+fmt(sal);
+    document.getElementById('aExp').textContent='-$'+fmt(expAmt);
+    document.getElementById('aSalRow').style.display=sal>0?'flex':'none';
+    document.getElementById('aExpRow').style.display=expAmt>0?'flex':'none';
+    document.getElementById('aNet').textContent='$'+fmt(net);
+    document.getElementById('netNum').textContent='$'+fmt(net);
+}
 
-        btn.innerText = "傳送中...";
-        btn.disabled = true;
-
-        emailjs.send("service_ftxzhbu", "template_905rmdk", {
-            from_name: name,
-            message: msg
-        }).then(() => {
-            alert("回報已送達。");
-            document.getElementById('contactName').value = "";
-            document.getElementById('contactMsg').value = "";
-            btn.innerText = "🚀好啦我會看的";
-            btn.disabled = false;
-        }, () => {
-            alert("失敗，請重試。");
-            btn.disabled = false;
-        });
-    }
+/* ══ Email ══ */
+function send(){
+    const btn=document.getElementById('sendBtn');
+    const name=document.getElementById('cName').value, msg=document.getElementById('cMsg').value;
+    if(!name||!msg){alert('請完整填寫');return;}
+    btn.innerText='傳送中...'; btn.disabled=true;
+    emailjs.send('service_ftxzhbu','template_905rmdk',{from_name:name,message:msg})
+        .then(()=>{alert('回報已送達。');document.getElementById('cName').value='';document.getElementById('cMsg').value='';btn.innerText='🚀好啦我會看的';btn.disabled=false;},
+        ()=>{alert('失敗，請重試。');btn.disabled=false;});
+}
 </script>
 </body>
 </html>
