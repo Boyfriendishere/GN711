@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⭐主播收益計算</title>
     <meta property="og:title" content="⭐主播收益計算">
     <meta property="og:description" content="直播主播收益試算工具，計算魅力值對應實領金額">
@@ -24,8 +24,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root{
-            --blue:#0ea5e9;--cyan:#22d3ee;--cb:#67e8f9;
-            --c-border:rgba(34,211,238,0.32);
+            --blue:#7c5cfc;--cyan:#22d3ee;--cb:#c4b5fd;--violet:#a78bfa;
+            --c-border:rgba(167,139,250,0.32);
             --red:#ff7675;--red-dim:rgba(255,118,117,0.08);--red-border:rgba(255,118,117,0.25);
             --border:rgba(255,255,255,0.11);
             --t1:rgba(255,255,255,0.94);--t2:rgba(255,255,255,0.52);--t3:rgba(255,255,255,0.24);
@@ -36,40 +36,64 @@
         body{
             font-family:'Noto Sans TC',sans-serif;
             min-height:100vh;
-            background:linear-gradient(135deg,#0d2137 0%,#071018 45%,#030608 100%);
+            background:radial-gradient(140% 120% at 50% -10%,#141033 0%,#0a0820 38%,#050410 70%,#020108 100%);
             color:var(--t1);
             display:flex;justify-content:center;align-items:flex-start;
             padding:40px 16px 80px;
             overflow-x:hidden;position:relative;
         }
-        .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px);}
-        .orb-1{width:500px;height:400px;background:radial-gradient(circle,rgba(14,165,233,0.22) 0%,rgba(6,182,212,0.1) 45%,transparent 70%);top:-120px;right:-120px;animation:drift 14s ease-in-out infinite alternate;}
-        .orb-2{width:340px;height:300px;background:radial-gradient(circle,rgba(0,206,201,0.14) 0%,transparent 70%);bottom:5%;left:-60px;animation:drift 18s ease-in-out infinite alternate-reverse;}
+        .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(72px);will-change:transform;mix-blend-mode:screen;}
+        .orb-1{width:520px;height:440px;background:radial-gradient(circle,rgba(124,92,252,0.32) 0%,rgba(99,102,241,0.12) 45%,transparent 70%);top:-140px;right:-120px;animation:drift 16s ease-in-out infinite alternate;}
+        .orb-2{width:380px;height:340px;background:radial-gradient(circle,rgba(34,211,238,0.18) 0%,transparent 70%);bottom:2%;left:-80px;animation:drift 20s ease-in-out infinite alternate-reverse;}
+        .orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(94,234,212,0.14) 0%,transparent 70%);top:36%;left:52%;animation:drift2 22s ease-in-out infinite alternate;}
+        .grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
         @keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(-20px,28px) scale(1.06);}}
+        @keyframes drift2{from{transform:translate(0,0) scale(1);}to{transform:translate(26px,-22px) scale(1.08);}}
+        @keyframes shimmer{to{background-position:200% 0;}}
+        @keyframes hue{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
         @keyframes fadein{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes cardIn{from{opacity:0;}to{opacity:1;}}
 
         .card{
             position:relative;z-index:1;
             width:100%;max-width:440px;
-            background:rgba(10,20,35,0.7);
+            background:rgba(14,12,30,0.62);
             border:1px solid var(--border);
             border-radius:28px;
             padding:36px 20px 40px;
             backdrop-filter:blur(48px) saturate(180%);
             -webkit-backdrop-filter:blur(48px) saturate(180%);
-            box-shadow:0 0 0 1px rgba(255,255,255,0.05) inset,0 40px 80px rgba(0,0,0,0.6),0 0 80px rgba(34,211,238,0.06);
-            animation:fadein .7s cubic-bezier(.22,1,.36,1) both;
+            box-shadow:0 0 0 1px rgba(255,255,255,0.06) inset,0 40px 90px rgba(0,0,0,0.65),0 0 90px rgba(124,92,252,0.12);
+            animation:cardIn .5s ease both;
         }
-        .card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(34,211,238,0.6),transparent);}
+        .card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,0.7),rgba(34,211,238,0.7),transparent);background-size:200% 100%;animation:shimmer 6s linear infinite;}
+
+        /* 階梯式入場 */
+        .card > h1,
+        .card > .ig,
+        .card > .res-panel,
+        .card > .divider,
+        .card > .privacy,
+        .card > .cform,
+        .card > .note{animation:fadein .55s cubic-bezier(.22,1,.36,1) both;}
+        .card > h1{animation-delay:.06s;}
+        .card > .ig:nth-of-type(1){animation-delay:.13s;}
+        .card > .ig:nth-of-type(2){animation-delay:.20s;}
+        .card > .res-panel{animation-delay:.27s;}
+        .card > .divider{animation-delay:.32s;}
+        .card > .privacy{animation-delay:.36s;}
+        .card > .cform{animation-delay:.40s;}
+        .card > .note{animation-delay:.44s;}
 
         h1{
             font-family:'Sora',sans-serif;
-            background:linear-gradient(135deg,#fff 10%,var(--cb) 100%);
+            background:linear-gradient(110deg,#ffffff 0%,#c4b5fd 38%,#67e8f9 70%,#5eead4 100%);
+            background-size:220% auto;
             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-            text-align:center;font-size:1.6rem;margin-bottom:36px;font-weight:800;letter-spacing:1.5px;
-            position:relative;z-index:1;
+            text-align:center;font-size:1.62rem;margin-bottom:36px;font-weight:800;letter-spacing:1.5px;
+            position:relative;z-index:1;animation:hue 9s ease-in-out infinite;
         }
-        h1::after{content:'';display:block;width:32px;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);margin:12px auto 0;border-radius:2px;}
+        h1::after{content:'';display:block;width:48px;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan),transparent);margin:14px auto 0;border-radius:2px;}
 
         .field-lbl{font-family:'Sora',sans-serif;color:var(--t2);font-size:0.65rem;font-weight:700;margin-bottom:8px;display:block;text-transform:uppercase;letter-spacing:2px;}
         .ig{margin-bottom:24px;}
@@ -86,7 +110,7 @@
         }
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-        input[type="number"]:focus{border-color:var(--c-border);background:rgba(0,0,0,0.45);box-shadow:0 0 0 3px rgba(0,206,201,0.08);}
+        input[type="number"]:focus{border-color:var(--c-border);background:rgba(0,0,0,0.45);box-shadow:0 0 0 3px rgba(124,92,252,0.08);}
         input[type="number"].ag-inp:focus{border-color:var(--ag-b);box-shadow:0 0 0 2px rgba(245,158,11,0.1);}
 
         textarea{
@@ -112,36 +136,66 @@
         .btn-lvl.active{
             background:linear-gradient(135deg,var(--blue),var(--cyan));
             color:white;border:none;
-            box-shadow:0 8px 24px rgba(0,206,201,0.3);
+            box-shadow:0 8px 24px rgba(124,92,252,0.3);
             transform:translateY(-2px);
+            position:relative;overflow:hidden;
         }
+        .btn-lvl.active::after{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.35) 50%,transparent 70%);
+            transform:translateX(-120%);
+            animation:sheen .6s ease;
+        }
+        @keyframes sheen{to{transform:translateX(120%);}}
 
-        /* 模式切換 */
-        .mode-sw{display:flex;gap:7px;margin-top:14px;background:rgba(0,0,0,0.28);border-radius:14px;padding:5px;border:1px solid rgba(255,255,255,0.06);}
-        .mode-btn{flex:1;padding:10px 0;border-radius:10px;border:none;font-family:'Sora',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:all .28s cubic-bezier(.4,0,.2,1);background:transparent;color:var(--t2);}
+        /* 模式切換 — 滑動指示膠囊 */
+        .mode-sw{position:relative;display:flex;gap:7px;margin-top:14px;background:rgba(0,0,0,0.28);border-radius:14px;padding:5px;border:1px solid rgba(255,255,255,0.06);}
+        .mode-ind{
+            position:absolute;top:5px;bottom:5px;left:5px;
+            width:calc(50% - 8.5px);border-radius:10px;
+            background:linear-gradient(135deg,var(--blue),var(--cyan));
+            box-shadow:0 5px 16px rgba(124,92,252,0.28);
+            transition:transform .32s cubic-bezier(.4,0,.2,1),background .32s ease,box-shadow .32s ease;
+            z-index:0;
+        }
+        .mode-ind.ag{
+            background:linear-gradient(135deg,#d97706,var(--ag));
+            box-shadow:0 5px 16px rgba(245,158,11,0.28);
+            transform:translateX(calc(100% + 7px));
+        }
+        .mode-btn{position:relative;z-index:1;flex:1;padding:10px 0;border-radius:10px;border:none;font-family:'Sora',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:color .28s;background:transparent;color:var(--t2);}
         .mode-btn:active{transform:scale(0.97);}
-        .mode-btn.on-off{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;box-shadow:0 5px 16px rgba(0,206,201,0.28);}
-        .mode-btn.on-ag{background:linear-gradient(135deg,#d97706,var(--ag));color:#fff;box-shadow:0 5px 16px rgba(245,158,11,0.28);}
+        .mode-btn.active{color:#fff;}
 
         /* 結果面板 */
         .res-panel{
             margin-top:16px;border-radius:22px;overflow:hidden;
             border:1px solid var(--c-border);
-            background:rgba(0,206,201,0.04);
+            background:rgba(124,92,252,0.04);
             backdrop-filter:blur(20px);
-            box-shadow:0 0 40px rgba(0,206,201,0.05);
+            box-shadow:0 0 40px rgba(124,92,252,0.05);
+            transition:border-color .35s ease,background .35s ease,box-shadow .35s ease;
         }
-        .res-panel.ag{border-color:var(--ag-b);background:rgba(245,158,11,0.04);}
+        .res-panel.ag{border-color:var(--ag-b);background:rgba(245,158,11,0.04);box-shadow:0 0 40px rgba(245,158,11,0.05);}
         .res-hd{padding:24px 20px 18px;text-align:center;position:relative;}
-        .res-hd::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,206,201,0.18),transparent);}
+        .res-hd::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(124,92,252,0.18),transparent);}
         .ag .res-hd::after{background:linear-gradient(90deg,transparent,rgba(245,158,11,0.18),transparent);}
         .res-lbl{font-family:'Sora',sans-serif;font-size:0.62rem;color:var(--t2);letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
         .res-num{
             font-family:'Sora',sans-serif;font-weight:800;
-            color:var(--cb);text-shadow:0 0 40px rgba(0,229,224,0.4);
+            background:linear-gradient(135deg,#ffffff 0%,#a5f3fc 55%,#c4b5fd 100%);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+            filter:drop-shadow(0 0 22px rgba(103,232,249,0.45));
             display:block;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+            transition:filter .35s ease;
         }
-        .res-num.ag{color:var(--ag);text-shadow:0 0 40px rgba(245,158,11,0.35);}
+        .res-num.ag{
+            background:linear-gradient(135deg,#fff7ed 0%,#fcd34d 55%,#f59e0b 100%);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+            filter:drop-shadow(0 0 22px rgba(245,158,11,0.42));
+        }
+        @keyframes netPulse{0%{transform:scale(1);}38%{transform:scale(1.045);}100%{transform:scale(1);}}
+        .res-num.bump{animation:netPulse .42s cubic-bezier(.34,1.56,.64,1);}
         .details{padding:16px 20px 10px;}
         .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.84rem;color:var(--t2);}
         .row:last-child{border-bottom:none;}
@@ -272,12 +326,19 @@
         .btn-send:active{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border-color:transparent;transform:scale(0.98);}
         .btn-send:disabled{opacity:.4;cursor:not-allowed;}
         .note{font-size:0.68rem;color:var(--t3);margin-top:40px;text-align:center;line-height:2.2;}
-        .thanks{color:rgba(9,132,227,0.5);font-weight:700;margin-top:12px;font-size:0.7rem;}
+        .thanks{color:rgba(167,139,250,0.55);font-weight:700;margin-top:12px;font-size:0.7rem;}
+
+        /* 尊重「減少動態」偏好設定 */
+        @media (prefers-reduced-motion: reduce){
+            *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+        }
     </style>
 </head>
 <body onload="init()">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grain"></div>
 
     <div class="card">
         <h1>⭐主播收益計算</h1>
@@ -301,8 +362,9 @@
                 <button class="btn-lvl" onclick="setLvl(7,1.45)">✨ 7等</button>
                 <button class="btn-lvl active" onclick="setLvl(8,1.5)">✨ 8等</button>
             </div>
-            <div class="mode-sw">
-                <button class="mode-btn on-off" id="btnOff" onclick="setMode('off')">🎙️ 官方簽約</button>
+            <div class="mode-sw" id="modeSw">
+                <span class="mode-ind" id="modeInd"></span>
+                <button class="mode-btn active" id="btnOff" onclick="setMode('off')">🎙️ 官方簽約</button>
                 <button class="mode-btn" id="btnAg" onclick="setMode('ag')">🏢 經紀公司</button>
             </div>
         </div>
@@ -506,17 +568,43 @@ let parties = [
 ];
 let expenses = [];
 
+/* 是否偏好減少動態 */
+const _reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 /* ══ 工具 ══ */
 function fmt(n){ return Math.floor(n).toLocaleString('zh-TW'); }
 function $n(id){ return parseFloat(document.getElementById(id).value) || 0; }
 function $el(el){ return parseFloat(el.value) || 0; }
 
-function setNet(n){
+/* ── 結果數字：count-up 滾動動畫 ── */
+let _netVal = 0, _netRaf = null;
+function paintNet(v){
     const el = document.getElementById('netNum');
-    const s = '$' + fmt(n);
+    const s = '$' + fmt(v);
     el.textContent = s;
     const L = s.length;
     el.style.fontSize = L<=7?'2.6rem':L<=9?'2.1rem':L<=11?'1.75rem':'1.4rem';
+}
+function setNet(n){
+    const el  = document.getElementById('netNum');
+    const end = Math.floor(n), start = _netVal;
+    if(start === end){ paintNet(end); return; }
+
+    // 數字變動時的脈衝高亮
+    el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+
+    if(_reduceMotion){ _netVal = end; paintNet(end); return; }
+
+    cancelAnimationFrame(_netRaf);
+    const t0 = performance.now(), dur = 520;
+    const ease = t => 1 - Math.pow(1 - t, 3); // easeOutCubic
+    (function frame(now){
+        const t = Math.min(1, (now - t0) / dur);
+        _netVal = Math.round(start + (end - start) * ease(t));
+        paintNet(_netVal);
+        if(t < 1) _netRaf = requestAnimationFrame(frame);
+        else { _netVal = end; paintNet(end); }
+    })(performance.now());
 }
 
 function show(id, v){ document.getElementById(id).style.display = v ? 'flex' : 'none'; }
@@ -533,19 +621,20 @@ function setLvl(l, r){
     calc();
 }
 
-/* ══ 模式 ══ */
+/* ══ 模式（滑動膠囊）══ */
 function setMode(m){
     mode = m;
     const isAg = m==='ag';
-    document.getElementById('btnOff').className = 'mode-btn' + (isAg?'':' on-off');
-    document.getElementById('btnAg').className  = 'mode-btn' + (isAg?' on-ag':'');
+    document.getElementById('btnOff').classList.toggle('active', !isAg);
+    document.getElementById('btnAg').classList.toggle('active', isAg);
+    document.getElementById('modeInd').classList.toggle('ag', isAg);
     showBlock('agSec',   isAg);
     showBlock('offRows', !isAg);
     showBlock('agRows',  isAg);
     const rp = document.getElementById('resPanel');
     const nm = document.getElementById('netNum');
-    isAg ? (rp.classList.add('ag'), nm.classList.add('ag'))
-         : (rp.classList.remove('ag'), nm.classList.remove('ag'));
+    if(isAg){ rp.classList.add('ag'); nm.classList.add('ag'); }
+    else    { rp.classList.remove('ag'); nm.classList.remove('ag'); }
     calc();
 }
 
