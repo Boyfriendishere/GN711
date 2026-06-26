@@ -379,6 +379,12 @@
                 <button class="mode-btn active" id="btnOff" onclick="setMode('off')">🎙️ 官方簽約</button>
                 <button class="mode-btn" id="btnAg" onclick="setMode('ag')">🏢 經紀公司</button>
             </div>
+            <!-- 居住者身份（僅官方簽約顯示）-->
+            <div class="mode-sw" id="resSw" style="margin-top:10px;">
+                <span class="mode-ind" id="resInd"></span>
+                <button class="mode-btn active" id="btnRes" onclick="setRes('resident')">🇹🇼 居住者</button>
+                <button class="mode-btn" id="btnNon" onclick="setRes('nonres')">🌐 非居住者</button>
+            </div>
         </div>
 
         <!-- 經紀公司設定 -->
@@ -434,11 +440,23 @@
 
                 <!-- 稅務處理方式 -->
                 <div class="sec-lbl">稅務處理方式</div>
+                <div class="notice" style="margin-bottom:10px;color:var(--red);border-color:rgba(255,118,117,0.3);background:rgba(255,118,117,0.08);line-height:1.7;">
+                    ⚠️ 經紀公司合約結構（平台付給公司或直接付個人、薪資或承攬）差異極大，以下稅務試算僅供概念參考、未必符合實際。建議先用「不計算稅務」檢視分潤淨額，實際稅務請以合約與會計師為準。
+                </div>
                 <div class="tax-list">
+
+                    <!-- 不計算稅務（預設）-->
+                    <label class="tax-opt">
+                        <input type="radio" name="tx" value="none" checked onchange="doTxChange()" onclick="doTxChange()">
+                        <div>
+                            <span class="opt-title">不計算稅務（預設・推薦）</span>
+                            <span class="opt-desc">直接顯示分潤後金額，不計算任何稅務。若為廠商合作關係（雙方均有統編），稅務由雙方公司自行處理，本工具不介入試算。</span>
+                        </div>
+                    </label>
 
                     <!-- 平台已預扣 -->
                     <label class="tax-opt">
-                        <input type="radio" name="tx" value="plat" checked onchange="doTxChange()" onclick="doTxChange()">
+                        <input type="radio" name="tx" value="plat" onchange="doTxChange()" onclick="doTxChange()">
                         <div>
                             <span class="opt-title">平台已預扣</span>
                             <span class="opt-desc">平台以原始收益整體扣除二代健保補充費（2.11%）及所得稅（5%），視門檻，稅後再按比例分潤給主播。適用於平台直接付款給個人，有其他約定分潤或團體等情況。</span>
@@ -500,15 +518,6 @@
                         </div>
                     </label>
 
-                    <!-- 不計算稅務 -->
-                    <label class="tax-opt">
-                        <input type="radio" name="tx" value="none" onchange="doTxChange()" onclick="doTxChange()">
-                        <div>
-                            <span class="opt-title">不計算稅務</span>
-                            <span class="opt-desc">直接顯示分潤後金額，不計算任何稅務。若為廠商合作關係（雙方均有統編），稅務由雙方公司自行處理，本工具不介入試算。</span>
-                        </div>
-                    </label>
-
                 </div>
             </div>
         </div>
@@ -523,8 +532,8 @@
                 <!-- 官方 -->
                 <div id="offRows">
                     <div class="row"><span>原始收益估計</span><span class="vw" id="oGross">$0</span></div>
-                    <div class="row"><span>二代健保 (2.11%)</span><span class="vd" id="oH">-$0</span></div>
-                    <div class="row"><span>預扣所得稅 (5.00%)</span><span class="vd" id="oI">-$0</span></div>
+                    <div class="row" id="oHRow"><span>二代健保 (2.11%)</span><span class="vd" id="oH">-$0</span></div>
+                    <div class="row"><span id="oILbl">預扣所得稅 (5.00%)</span><span class="vd" id="oI">-$0</span></div>
                 </div>
                 <!-- 經紀 -->
                 <div id="agRows" style="display:none;">
@@ -549,6 +558,7 @@
             <span class="disc">免責聲明</span>
             本工具僅供主播試算，開發者不存取任何收益數據<br>
             實際金額依官方平台及合約為主<br>
+            非居住者依一課稅年度在台居留是否滿 183 天認定，未滿 183 天適用 6%/18% 扣繳<br>
             <span style="color:var(--ag);font-weight:600;">正式員工之勞健保依投保級距計算，本工具不自動計算，數字僅供參考</span><br>
             經紀公司約各家條件不同，稅務處理方式請以實際合約為準<br>
             廠商合作關係（雙方均有統編）之稅務，本工具不介入試算<br>
@@ -571,7 +581,7 @@
 
 <script>
 /* ══ 狀態 ══ */
-let lvlRate = 1.5, mode = 'off';
+let lvlRate = 1.5, mode = 'off', resType = 'resident';
 let parties = [
     {lbl:'主播',    pct:50, on:true,  fixed:true},
     {lbl:'經紀公司',pct:50, on:true,  fixed:true},
@@ -647,6 +657,17 @@ function setMode(m){
     const nm = document.getElementById('netNum');
     if(isAg){ rp.classList.add('ag'); nm.classList.add('ag'); }
     else    { rp.classList.remove('ag'); nm.classList.remove('ag'); }
+    document.getElementById('resSw').style.display = isAg ? 'none' : 'flex';
+    calc();
+}
+
+/* ══ 居住者／非居住者（僅官方簽約）══ */
+function setRes(r){
+    resType = r;
+    const non = r==='nonres';
+    document.getElementById('btnRes').classList.toggle('active', !non);
+    document.getElementById('btnNon').classList.toggle('active', non);
+    document.getElementById('resInd').classList.toggle('ag', non);
     calc();
 }
 
@@ -787,19 +808,33 @@ function calc(){
 
     /* ── 官方簽約 ── */
     if(mode==='off'){
-        const h  = g>=27470 ? Math.round(g*0.0211) : 0;
-        const ii = g>=88501 ? Math.round(g*0.05)   : 0;
+        let h, ii, iLbl;
+        if(resType==='nonres'){
+            // 非居住者：免二代健保補充保費；薪資扣繳 6%(≤基本工資1.5倍) 或 18%
+            h = 0;
+            const isLow = g<=44250;                 // 2026 基本工資 29,500×1.5 = 44,250
+            const rate = isLow ? 0.06 : 0.18;
+            ii = Math.round(g*rate);
+            iLbl = `預扣所得稅 (${isLow ? '6' : '18'}%)`;
+        } else {
+            // 居住者：二代健保 2.11%(≥29,500)、薪資扣繳 5%(≥90,501)
+            h  = g>=29500 ? Math.round(g*0.0211) : 0;
+            ii = g>=90501 ? Math.round(g*0.05)   : 0;
+            iLbl = '預扣所得稅 (5.00%)';
+        }
         const net= Math.max(0,Math.floor(g-h-ii));
         setText('oGross','$'+fmt(g));
+        show('oHRow', resType!=='nonres');          // 非居住者隱藏二代健保列
         setText('oH',   '-$'+fmt(h));
+        setText('oILbl', iLbl);
         setText('oI',   '-$'+fmt(ii));
-        setText('resLbl','預計實領');
+        setText('resLbl', resType==='nonres' ? '預計實領（非居住者）' : '預計實領');
         setNet(net);
         return;
     }
 
     /* ── 經紀公司 ── */
-    const tx  = document.querySelector('input[name="tx"]:checked')?.value||'plat';
+    const tx  = document.querySelector('input[name="tx"]:checked')?.value||'none';
     const pct = parties[0].pct;
     const sal = document.getElementById('hasSal').checked ? $n('baseSal') : 0;
     const exp = document.getElementById('hasExp').checked ? totalExp() : 0;
@@ -815,8 +850,8 @@ function calc(){
 
     if(tx==='plat'){
         /* 平台已預扣：整體扣稅後分潤 */
-        const h  = g>=27470 ? Math.round(g*0.0211) : 0;
-        const ii = g>=88501 ? Math.round(g*0.05)   : 0;
+        const h  = g>=29500 ? Math.round(g*0.0211) : 0;
+        const ii = g>=90501 ? Math.round(g*0.05)   : 0;
         const tax= h+ii;
         split = (g-tax)*(pct/100);
         net   = Math.max(0,Math.floor(split+sal-exp));
@@ -854,7 +889,7 @@ function calc(){
         } else {
             /* 合約約聘：二代健保自動 2.11%，所得稅預扣自填 */
             const whR = parseFloat(document.getElementById('whRate').value)||0;
-            const nhi = base>=27470 ? Math.round(base*0.0211) : 0;
+            const nhi = base>=29500 ? Math.round(base*0.0211) : 0;
             const wh  = base>=20010 ? Math.round(base*whR/100) : 0;
             net = Math.max(0,Math.floor(split+sal-nhi-wh-exp));
             // 二代健保那行
