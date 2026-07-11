@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0d0c0a">
+    <meta name="theme-color" content="#0a0714">
     <title>主播收益計算</title>
     <meta property="og:title" content="主播收益計算">
     <meta property="og:description" content="直播主播收益試算工具，計算魅力值對應實領金額">
@@ -22,34 +22,50 @@
         gtag('config', 'G-5WQM0D2302');
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Serif+TC:wght@900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* ═══════════════════════════════════════════════
+           舞台燈光系 STAGE LIGHT
+           墨紫夜幕 #0a0714 ・ 玫瑰霓虹 #ff6b9d ・ 燈琥珀 #ffb86b
+           經紀模式整體轉為 冰青 #8fe3f2 舞台冷光
+           ═══════════════════════════════════════════════ */
         :root{
-            --c1:#f2dca6;--c2:#d0a44e;
-            --grad:linear-gradient(135deg,#f2dca6,#d0a44e);
-            --plat:#c9cfd8;--plat-dim:rgba(201,207,216,0.09);--plat-b:rgba(201,207,216,0.32);
+            --rose:#ff6b9d;--amber:#ffb86b;
+            --grad:linear-gradient(135deg,var(--amber),var(--rose));
+            --ink:#2d0b16;                        /* 暖色漸層上的文字 */
+            --plat:#9fe8f5;--plat-dim:rgba(143,227,242,0.08);--plat-b:rgba(143,227,242,0.34);
+            --grad-ice:linear-gradient(135deg,#d9fbff,#8fe3f2);
+            --ink-ice:#062830;                    /* 冷色漸層上的文字 */
             --ok:#4ade9c;--red:#ff8b87;
-            --glass:rgba(255,255,255,0.065);--glass2:rgba(255,255,255,0.1);
+            --glass:rgba(255,255,255,0.055);
             --line:rgba(255,255,255,0.12);--line-soft:rgba(255,255,255,0.08);
-            --t1:rgba(255,255,255,0.96);--t2:rgba(255,255,255,0.64);--t3:rgba(255,255,255,0.4);
-            --num:'Outfit','Noto Sans TC',sans-serif;
+            --t1:rgba(255,255,255,0.96);--t2:rgba(255,255,255,0.62);--t3:rgba(255,255,255,0.38);
+            --num:'Space Grotesk','Noto Sans TC',sans-serif;
+            --serif:'Noto Serif TC',serif;
         }
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
         html{font-size:16px;}
         body{
             font-family:'Noto Sans TC',sans-serif;
             min-height:100vh;
-            background:#0d0c0a;
+            background:#0a0714;
+            background-image:radial-gradient(ellipse 120% 60% at 50% -10%,rgba(255,107,157,0.05),transparent 60%);
             color:var(--t1);
             display:flex;justify-content:center;align-items:flex-start;
             padding:40px 16px 120px;
             overflow-x:hidden;position:relative;
         }
-        /* 暮色極光 */
-        .aura{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px);will-change:transform;}
-        .aura-1{width:640px;height:520px;background:radial-gradient(closest-side,rgba(232,197,120,0.13),transparent);top:-200px;left:50%;margin-left:-160px;animation:breathe 18s ease-in-out infinite alternate;}
-        .aura-2{width:520px;height:460px;background:radial-gradient(closest-side,rgba(196,148,66,0.1),transparent);top:24%;left:-200px;animation:breathe 23s ease-in-out infinite alternate-reverse;}
-        .aura-3{width:460px;height:420px;background:radial-gradient(closest-side,rgba(255,244,224,0.07),transparent);bottom:-8%;right:-140px;animation:breathe 26s ease-in-out infinite alternate;}
+
+        /* ── 舞台極光：暖 / 冷 兩組交叉淡入 ── */
+        .aura{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px);will-change:transform,opacity;transition:opacity 1.2s ease;}
+        .aw-1{width:660px;height:540px;background:radial-gradient(closest-side,rgba(255,107,157,0.14),transparent);top:-210px;left:50%;margin-left:-180px;animation:breathe 18s ease-in-out infinite alternate;}
+        .aw-2{width:540px;height:470px;background:radial-gradient(closest-side,rgba(139,92,246,0.12),transparent);top:22%;left:-210px;animation:breathe 23s ease-in-out infinite alternate-reverse;}
+        .aw-3{width:470px;height:430px;background:radial-gradient(closest-side,rgba(255,184,107,0.10),transparent);bottom:-8%;right:-150px;animation:breathe 26s ease-in-out infinite alternate;}
+        .ac-1{width:660px;height:540px;background:radial-gradient(closest-side,rgba(143,227,242,0.13),transparent);top:-210px;left:50%;margin-left:-180px;animation:breathe 18s ease-in-out infinite alternate;opacity:0;}
+        .ac-2{width:540px;height:470px;background:radial-gradient(closest-side,rgba(96,140,255,0.11),transparent);top:22%;left:-210px;animation:breathe 23s ease-in-out infinite alternate-reverse;opacity:0;}
+        .ac-3{width:470px;height:430px;background:radial-gradient(closest-side,rgba(94,234,212,0.09),transparent);bottom:-8%;right:-150px;animation:breathe 26s ease-in-out infinite alternate;opacity:0;}
+        body.agm .aw-1,body.agm .aw-2,body.agm .aw-3{opacity:0;}
+        body.agm .ac-1,body.agm .ac-2,body.agm .ac-3{opacity:1;}
         @keyframes breathe{from{transform:translate(0,0) scale(1);}to{transform:translate(24px,18px) scale(1.08);}}
         @keyframes fadein{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 
@@ -59,10 +75,10 @@
             background:var(--glass);
             border:1px solid var(--line);
             border-radius:32px;
-            padding:36px 24px 40px;
+            padding:38px 24px 40px;
             backdrop-filter:blur(44px) saturate(170%);
             -webkit-backdrop-filter:blur(44px) saturate(170%);
-            box-shadow:inset 0 1px 0 rgba(255,255,255,0.14),0 32px 80px rgba(4,2,12,0.6);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,0.14),0 32px 80px rgba(6,2,14,0.65);
         }
         .card > *{animation:fadein .55s cubic-bezier(.22,1,.36,1) both;}
         .card > *:nth-child(1){animation-delay:.04s;}
@@ -72,18 +88,24 @@
         .card > *:nth-child(5){animation-delay:.24s;}
         .card > *:nth-child(n+6){animation-delay:.29s;}
 
-        header{margin-bottom:32px;text-align:center;}
-        h1{font-size:1.62rem;font-weight:700;letter-spacing:3px;color:var(--t1);line-height:1.3;}
-        h1::after{content:'';display:block;width:48px;height:3px;border-radius:3px;background:var(--grad);margin:14px auto 0;}
+        /* 標題改用明體 900 — 編輯感 */
+        header{margin-bottom:36px;text-align:center;}
+        h1{
+            font-family:var(--serif);font-size:1.9rem;font-weight:900;
+            letter-spacing:7px;text-indent:7px;color:var(--t1);line-height:1.3;
+        }
+        h1::after{content:'';display:block;width:52px;height:3px;border-radius:3px;background:var(--grad);margin:15px auto 0;transition:background 1.1s ease;}
+        body.agm h1::after{background:var(--grad-ice);}
+        .h-sub{font-family:var(--num);font-size:0.64rem;font-weight:600;letter-spacing:5px;color:var(--t3);margin-top:10px;text-indent:5px;}
 
-        .field-lbl{color:var(--t2);font-size:0.76rem;font-weight:500;margin-bottom:10px;display:block;letter-spacing:1.2px;}
+        .field-lbl{color:var(--t2);font-size:0.74rem;font-weight:500;margin-bottom:10px;display:block;letter-spacing:1.6px;}
         .ig{margin-bottom:28px;}
 
         /* 輸入框 */
         input[type="number"]{
             width:100%;padding:17px 20px;
             border-radius:18px;border:1px solid var(--line-soft);
-            background:rgba(0,0,0,0.24);color:var(--t1);
+            background:rgba(0,0,0,0.26);color:var(--t1);
             font-family:var(--num);font-size:1.3rem;font-weight:600;
             box-sizing:border-box;outline:none;
             transition:border-color .25s,box-shadow .25s,background .25s;
@@ -91,61 +113,59 @@
         }
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-        input[type="number"]:focus{border-color:rgba(212,169,82,0.5);background:rgba(0,0,0,0.34);box-shadow:0 0 0 4px rgba(212,169,82,0.09);}
-        input[type="number"].ag-inp:focus{border-color:var(--plat-b);box-shadow:0 0 0 4px rgba(201,207,216,0.08);}
+        input[type="number"]:focus{border-color:rgba(255,107,157,0.55);background:rgba(0,0,0,0.36);box-shadow:0 0 0 4px rgba(255,107,157,0.09);}
+        input[type="number"].ag-inp:focus{border-color:var(--plat-b);box-shadow:0 0 0 4px rgba(143,227,242,0.08);}
         .charm-hint{font-size:0.76rem;color:var(--t3);margin-top:8px;padding-left:6px;font-family:var(--num);font-weight:500;min-height:1em;}
         .charm-hint b{color:var(--t2);font-weight:600;}
 
         textarea{
             width:100%;padding:14px 20px;
             border-radius:18px;border:1px solid var(--line-soft);
-            background:rgba(0,0,0,0.24);color:var(--t1);
+            background:rgba(0,0,0,0.26);color:var(--t1);
             font-family:'Noto Sans TC',sans-serif;font-size:0.95rem;
             resize:none;outline:none;line-height:1.6;
             transition:border-color .25s;
         }
-        textarea:focus{border-color:rgba(212,169,82,0.5);}
-        button:focus-visible,input:focus-visible+.tog-sl{outline:2px solid rgba(212,169,82,0.6);outline-offset:2px;}
+        textarea:focus{border-color:rgba(255,107,157,0.55);}
+        button:focus-visible,input:focus-visible+.tog-sl{outline:2px solid rgba(255,107,157,0.6);outline-offset:2px;}
 
         /* 等級格 */
         .lvl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:4px;}
         .btn-lvl{
             background:var(--glass);color:var(--t2);
             border:1px solid var(--line-soft);
-            padding:10px 0 9px;border-radius:15px;min-height:54px;
-            font-family:'Noto Sans TC',sans-serif;font-size:0.86rem;font-weight:500;
+            padding:0;border-radius:15px;min-height:46px;
+            font-family:'Noto Sans TC',sans-serif;font-size:0.88rem;font-weight:500;
             cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);
-            display:flex;flex-direction:column;align-items:center;gap:2px;
+            display:flex;align-items:center;justify-content:center;
             backdrop-filter:blur(8px);
         }
-        .btn-lvl .lv-rate{font-family:var(--num);font-size:0.62rem;font-weight:500;opacity:.55;letter-spacing:.3px;}
         .btn-lvl:active{transform:scale(0.95);}
         .btn-lvl.active{
-            background:var(--grad);color:#2a2008;border-color:transparent;
-            box-shadow:0 8px 24px rgba(212,169,82,0.22),inset 0 1px 0 rgba(255,255,255,0.4);
+            background:var(--grad);color:var(--ink);border-color:transparent;
+            box-shadow:0 8px 26px rgba(255,107,157,0.28),inset 0 1px 0 rgba(255,255,255,0.45);
             font-weight:700;
         }
-        .btn-lvl.active .lv-rate{opacity:.9;}
 
         /* 模式切換 — 滑動指示膠囊 */
-        .mode-sw{position:relative;display:flex;gap:7px;margin-top:14px;background:rgba(0,0,0,0.26);border-radius:17px;padding:5px;border:1px solid var(--line-soft);}
+        .mode-sw{position:relative;display:flex;gap:7px;margin-top:14px;background:rgba(0,0,0,0.28);border-radius:17px;padding:5px;border:1px solid var(--line-soft);}
         .mode-ind{
             position:absolute;top:5px;bottom:5px;left:5px;
             width:calc(50% - 8.5px);border-radius:13px;
             background:var(--grad);
-            box-shadow:0 6px 18px rgba(212,169,82,0.22),inset 0 1px 0 rgba(255,255,255,0.4);
+            box-shadow:0 6px 18px rgba(255,107,157,0.28),inset 0 1px 0 rgba(255,255,255,0.45);
             transition:transform .34s cubic-bezier(.34,1.4,.64,1),background .34s ease,box-shadow .34s ease;
             z-index:0;
         }
         .mode-ind.ag{
-            background:linear-gradient(135deg,#e8edf4,#aeb6c2);
-            box-shadow:0 6px 18px rgba(201,207,216,0.2),inset 0 1px 0 rgba(255,255,255,0.4);
+            background:var(--grad-ice);
+            box-shadow:0 6px 18px rgba(143,227,242,0.24),inset 0 1px 0 rgba(255,255,255,0.5);
             transform:translateX(calc(100% + 7px));
         }
         .mode-btn{position:relative;z-index:1;flex:1;padding:13px 0;border-radius:13px;border:none;font-family:'Noto Sans TC',sans-serif;font-size:0.86rem;font-weight:700;cursor:pointer;transition:color .28s;background:transparent;color:var(--t2);min-height:46px;}
         .mode-btn:active{transform:scale(0.97);}
-        .mode-btn.active{color:#2a2008;}
-        .mode-ind.ag ~ .mode-btn.active{color:#171a1f;}
+        .mode-btn.active{color:var(--ink);}
+        .mode-ind.ag ~ .mode-btn.active{color:var(--ink-ice);}
         .sw-hint{font-size:0.72rem;color:var(--t3);margin-top:9px;padding-left:6px;line-height:1.65;}
 
         /* 經紀公司設定 */
@@ -176,20 +196,20 @@
             flex:1;min-width:0;
             padding:12px 8px;border-radius:13px;
             border:1px solid var(--line-soft);
-            background:rgba(0,0,0,0.24);color:var(--t1);
+            background:rgba(0,0,0,0.26);color:var(--t1);
             font-family:var(--num);font-size:1.05rem;font-weight:600;
             text-align:center;outline:none;
             -webkit-appearance:none;-moz-appearance:textfield;
             transition:border-color .22s;
         }
         .pty-num::-webkit-outer-spin-button,.pty-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-        .pty-num:focus{border-color:var(--plat-b);box-shadow:0 0 0 3px rgba(201,207,216,0.08);}
+        .pty-num:focus{border-color:var(--plat-b);box-shadow:0 0 0 3px rgba(143,227,242,0.08);}
         .pty-unit{font-size:0.82rem;color:var(--t3);flex-shrink:0;width:16px;}
         .pty-sp{width:30px;flex-shrink:0;}
         .pty-del{width:30px;height:30px;border-radius:50%;border:1px solid var(--line-soft);background:transparent;color:var(--t3);font-size:0.78rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
         .pty-del:active{background:rgba(255,139,135,0.16);color:var(--red);}
 
-        .total-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:13px;background:rgba(0,0,0,0.2);margin-bottom:10px;}
+        .total-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:13px;background:rgba(0,0,0,0.22);margin-bottom:10px;}
         .total-lbl{font-size:0.78rem;color:var(--t2);}
         .total-v{font-family:var(--num);font-size:0.92rem;font-weight:700;}
         .total-v.ok{color:var(--ok);}.total-v.warn{color:var(--red);}
@@ -220,88 +240,163 @@
         .exp-tot{font-size:0.76rem;color:var(--red);font-family:var(--num);font-weight:600;text-align:right;margin-top:5px;}
 
         /* 稅務選項 */
-        .tax-note{margin-bottom:12px;padding:11px 14px;background:var(--plat-dim);border:1px solid rgba(201,207,216,0.2);border-radius:13px;font-size:0.73rem;color:var(--t2);line-height:1.7;}
+        .tax-note{margin-bottom:12px;padding:11px 14px;background:var(--plat-dim);border:1px solid rgba(143,227,242,0.2);border-radius:13px;font-size:0.73rem;color:var(--t2);line-height:1.7;}
         .tax-note b{color:var(--plat);font-weight:700;}
         .tax-list{display:flex;flex-direction:column;gap:8px;}
-        .tax-opt{display:flex;align-items:flex-start;gap:12px;padding:14px 15px;border-radius:16px;border:1px solid var(--line-soft);background:rgba(0,0,0,0.18);cursor:pointer;transition:border-color .22s,background .22s;}
+        .tax-opt{display:flex;align-items:flex-start;gap:12px;padding:14px 15px;border-radius:16px;border:1px solid var(--line-soft);background:rgba(0,0,0,0.2);cursor:pointer;transition:border-color .22s,background .22s;}
         .tax-opt:has(input[name="tx"]:checked){border-color:var(--plat-b);background:var(--plat-dim);}
         .tax-opt input[type="radio"]{margin-top:3px;flex-shrink:0;accent-color:var(--plat);width:17px;height:17px;}
         .opt-title{font-size:0.88rem;color:var(--t1);font-weight:700;display:block;margin-bottom:3px;line-height:1.35;}
         .opt-desc{font-size:0.73rem;color:var(--t3);line-height:1.6;display:block;}
 
         /* 身份子選項 */
-        .id-wrap{display:none;margin-top:12px;padding:12px;background:rgba(0,0,0,0.2);border-radius:14px;border:1px solid var(--line-soft);}
+        .id-wrap{display:none;margin-top:12px;padding:12px;background:rgba(0,0,0,0.22);border-radius:14px;border:1px solid var(--line-soft);}
         .id-list{display:flex;flex-direction:column;gap:7px;margin-bottom:10px;}
-        .id-opt{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:12px;border:1px solid var(--line-soft);background:rgba(0,0,0,0.16);cursor:pointer;transition:border-color .2s,background .2s;}
+        .id-opt{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:12px;border:1px solid var(--line-soft);background:rgba(0,0,0,0.18);cursor:pointer;transition:border-color .2s,background .2s;}
         .id-opt:has(input:checked){border-color:var(--plat-b);background:var(--plat-dim);}
         .id-opt input[type="radio"]{margin-top:2px;flex-shrink:0;accent-color:var(--plat);width:16px;height:16px;}
         .id-title{font-size:0.84rem;color:var(--t1);font-weight:700;display:block;margin-bottom:2px;}
         .id-desc{font-size:0.71rem;color:var(--t3);line-height:1.5;display:block;}
 
         /* 身份欄位 */
-        .id-fields{display:none;padding:12px;background:rgba(0,0,0,0.16);border-radius:12px;border:1px solid rgba(255,255,255,0.06);}
+        .id-fields{display:none;padding:12px;background:rgba(0,0,0,0.18);border-radius:12px;border:1px solid rgba(255,255,255,0.06);}
         .sub-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
         .sub-row:last-of-type{margin-bottom:0;}
         .sub-inp{
             width:78px;flex-shrink:0;
             padding:10px 7px;border-radius:11px;
             border:1px solid var(--line-soft);
-            background:rgba(0,0,0,0.26);color:var(--t1);
+            background:rgba(0,0,0,0.28);color:var(--t1);
             font-family:var(--num);font-size:0.98rem;font-weight:600;
             text-align:center;outline:none;
             -webkit-appearance:none;-moz-appearance:textfield;
             transition:border-color .22s;
         }
         .sub-inp::-webkit-outer-spin-button,.sub-inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-        .sub-inp:focus{border-color:var(--plat-b);box-shadow:0 0 0 3px rgba(201,207,216,0.08);}
+        .sub-inp:focus{border-color:var(--plat-b);box-shadow:0 0 0 3px rgba(143,227,242,0.08);}
         .notice{margin-top:9px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:11px;font-size:0.7rem;color:var(--t3);line-height:1.7;}
 
-        /* ══ 結果面板 — 玻璃主舞台 ══ */
+        /* ══ 結果面板 — 舞台主燈 ══ */
         .res-panel{
             position:relative;margin-top:4px;
             border-radius:26px;overflow:hidden;
-            background:linear-gradient(160deg,rgba(255,255,255,0.12),rgba(255,255,255,0.05) 45%,rgba(255,255,255,0.03));
+            background:linear-gradient(160deg,rgba(255,255,255,0.11),rgba(255,255,255,0.045) 45%,rgba(255,255,255,0.025));
             border:1px solid rgba(255,255,255,0.18);
             backdrop-filter:blur(30px) saturate(180%);
             -webkit-backdrop-filter:blur(30px) saturate(180%);
-            box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),0 24px 60px rgba(4,2,12,0.5);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),0 24px 60px rgba(6,2,14,0.55);
         }
+        /* 頂緣一道舞台光 */
+        .res-panel .rc-edge{
+            position:absolute;top:0;left:8%;right:8%;height:1.5px;z-index:2;
+            background:linear-gradient(90deg,transparent,rgba(255,184,107,0.8),rgba(255,107,157,0.8),transparent);
+            transition:background .5s ease;
+        }
+        .res-panel.ag .rc-edge{background:linear-gradient(90deg,transparent,rgba(217,251,255,0.8),rgba(143,227,242,0.8),transparent);}
         .res-panel::before{
             content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;
-            background:radial-gradient(closest-side,rgba(212,169,82,0.13),transparent);
+            background:radial-gradient(closest-side,rgba(255,107,157,0.13),transparent);
             pointer-events:none;transition:background .4s ease;
         }
-        .res-panel.ag::before{background:radial-gradient(closest-side,rgba(201,207,216,0.11),transparent);}
+        .res-panel.ag::before{background:radial-gradient(closest-side,rgba(143,227,242,0.11),transparent);}
+        /* 細噪點紋理，避免玻璃面死平 */
+        .res-panel::after{
+            content:'';position:absolute;inset:0;pointer-events:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity:.045;mix-blend-mode:overlay;
+        }
         .rc-top{
-            position:relative;
+            position:relative;z-index:1;
             display:flex;justify-content:space-between;align-items:center;
             padding:18px 22px 0;
         }
-        .rc-brand{font-size:0.7rem;font-weight:700;letter-spacing:2px;color:var(--t2);}
-        .rc-date{font-family:var(--num);font-size:0.68rem;font-weight:500;color:var(--t3);letter-spacing:.5px;}
-        .res-hd{padding:20px 20px 20px;text-align:center;position:relative;}
-        .res-lbl{font-size:0.7rem;color:var(--t2);letter-spacing:3px;font-weight:500;margin-bottom:10px;}
-        .res-num{
-            font-family:var(--num);font-weight:800;color:var(--t1);
-            font-variant-numeric:tabular-nums;
-            text-shadow:0 2px 24px rgba(212,169,82,0.28);
-            display:block;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        .rc-brand{font-size:0.7rem;font-weight:700;letter-spacing:2px;color:var(--t2);display:flex;align-items:center;gap:7px;}
+        /* LIVE 呼吸點 */
+        .rc-brand::before{
+            content:'';width:7px;height:7px;border-radius:50%;
+            background:var(--rose);box-shadow:0 0 8px rgba(255,107,157,0.9);
+            animation:livePulse 2.2s ease-in-out infinite;transition:background .5s,box-shadow .5s;
         }
-        .res-num.ag{text-shadow:0 2px 24px rgba(201,207,216,0.3);}
+        .res-panel.ag .rc-brand::before{background:var(--plat);box-shadow:0 0 8px rgba(143,227,242,0.9);}
+        @keyframes livePulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.45;transform:scale(.8);}}
+        .rc-date{font-family:var(--num);font-size:0.68rem;font-weight:500;color:var(--t3);letter-spacing:.5px;}
+        .res-hd{padding:20px 20px 16px;text-align:center;position:relative;z-index:1;}
+        .res-lbl{font-size:0.7rem;color:var(--t2);letter-spacing:3px;font-weight:500;margin-bottom:10px;}
+        /* 主數字：漸層流光 */
+        .res-num{
+            font-family:var(--num);font-weight:700;
+            font-variant-numeric:tabular-nums;
+            display:block;line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+            background:linear-gradient(100deg,#ffd9a8 0%,var(--amber) 22%,var(--rose) 55%,#ffd9e6 78%,var(--amber) 100%);
+            background-size:220% 100%;
+            -webkit-background-clip:text;background-clip:text;
+            -webkit-text-fill-color:transparent;color:transparent;
+            filter:drop-shadow(0 3px 20px rgba(255,107,157,0.32));
+            animation:shine 7s linear infinite;
+        }
+        .res-num.ag{
+            background:linear-gradient(100deg,#eafdff 0%,#8fe3f2 30%,#c6f4fb 55%,#8fe3f2 80%,#eafdff 100%);
+            background-size:220% 100%;
+            -webkit-background-clip:text;background-clip:text;
+            -webkit-text-fill-color:transparent;
+            filter:drop-shadow(0 3px 20px rgba(143,227,242,0.32));
+        }
+        @keyframes shine{from{background-position:0% 0;}to{background-position:-220% 0;}}
         @keyframes netPulse{0%{transform:scale(1);}38%{transform:scale(1.04);}100%{transform:scale(1);}}
-        .res-num.bump{animation:netPulse .42s cubic-bezier(.34,1.56,.64,1);}
+        .res-num.bump{animation:netPulse .42s cubic-bezier(.34,1.56,.64,1),shine 7s linear infinite;}
+
+        /* ── 門檻智慧提示 ── */
+        .th-pill{
+            display:none;margin:14px auto 0;max-width:100%;
+            padding:9px 14px;border-radius:13px;
+            font-size:0.72rem;line-height:1.7;text-align:left;
+            backdrop-filter:blur(6px);
+            animation:fadein .4s cubic-bezier(.22,1,.36,1) both;
+        }
+        .th-pill b{font-family:var(--num);font-weight:700;}
+        .th-pill.warn{background:rgba(255,139,135,0.09);border:1px solid rgba(255,139,135,0.32);color:#ffc4c1;}
+        .th-pill.warn b{color:var(--red);}
+        .th-pill.info{background:rgba(255,184,107,0.07);border:1px solid rgba(255,184,107,0.32);color:#f5dcbd;}
+        .th-pill.info b{color:var(--amber);}
+        .res-panel.ag .th-pill.info{background:rgba(143,227,242,0.07);border-color:var(--plat-b);color:#d5f2f8;}
+        .res-panel.ag .th-pill.info b{color:var(--plat);}
+
+        /* ── 收益瀑布條 ── */
+        .wf-wrap{position:relative;z-index:1;padding:2px 22px 6px;}
+        .wf{
+            display:flex;height:14px;border-radius:8px;overflow:hidden;
+            background:rgba(0,0,0,0.32);
+            box-shadow:inset 0 1px 2px rgba(0,0,0,0.4);
+        }
+        .wf-seg{height:100%;width:0;transition:width .55s cubic-bezier(.22,1,.36,1);}
+        .wf-net{background:var(--grad);box-shadow:0 0 12px rgba(255,107,157,0.45);}
+        .res-panel.ag .wf-net{background:var(--grad-ice);box-shadow:0 0 12px rgba(143,227,242,0.4);}
+        .wf-oth{background:rgba(143,227,242,0.32);}
+        .wf-tax{background:rgba(255,139,135,0.55);}
+        .wf-exp{background:rgba(255,139,135,0.26);}
+        .wf-lg{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:9px;}
+        .wf-li{display:none;align-items:center;gap:6px;font-size:0.66rem;color:var(--t3);letter-spacing:.5px;}
+        .wf-li i{width:8px;height:8px;border-radius:3px;flex-shrink:0;}
+        .wf-li.on{display:flex;}
+        .wf-li .d-net{background:var(--grad);}
+        .res-panel.ag .wf-li .d-net{background:var(--grad-ice);}
+        .wf-li .d-oth{background:rgba(143,227,242,0.32);}
+        .wf-li .d-tax{background:rgba(255,139,135,0.55);}
+        .wf-li .d-exp{background:rgba(255,139,135,0.26);}
+
         /* 玻璃印章 */
         .rc-stamp{
             position:absolute;top:46px;right:14px;z-index:2;
             padding:5px 11px;border-radius:8px;
-            border:1.5px solid rgba(212,169,82,0.55);
-            background:rgba(212,169,82,0.08);
+            border:1.5px solid rgba(255,107,157,0.55);
+            background:rgba(255,107,157,0.08);
             backdrop-filter:blur(6px);
-            font-size:0.62rem;font-weight:700;letter-spacing:1.5px;color:var(--c1);
+            font-size:0.62rem;font-weight:700;letter-spacing:1.5px;color:#ffc0d6;
             transform:rotate(-6deg);opacity:.75;pointer-events:none;user-select:none;
+            transition:border-color .5s,color .5s,background .5s;
         }
-        .res-panel.ag .rc-stamp{border-color:var(--plat-b);color:var(--plat);background:rgba(201,207,216,0.08);}
-        .details{position:relative;padding:4px 22px 18px;}
+        .res-panel.ag .rc-stamp{border-color:var(--plat-b);color:var(--plat);background:rgba(143,227,242,0.08);}
+        .details{position:relative;z-index:1;padding:4px 22px 18px;}
         .details::before{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);margin-bottom:6px;}
         .row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;font-size:0.83rem;color:var(--t2);}
         .vw,.vd,.va{font-family:var(--num);font-weight:600;font-size:0.9rem;font-variant-numeric:tabular-nums;}
@@ -310,7 +405,7 @@
         .va{color:var(--plat);}
         .rc-final{border-top:1px solid rgba(255,255,255,0.1);margin-top:4px;padding-top:13px;}
         .rc-final span:first-child{font-weight:700;color:var(--t1);}
-        .rc-note{padding:0 22px 16px;font-size:0.68rem;color:var(--t3);line-height:1.65;}
+        .rc-note{position:relative;z-index:1;padding:0 22px 16px;font-size:0.68rem;color:var(--t3);line-height:1.65;}
 
         /* 底部懸浮實領列 */
         .sticky-net{
@@ -319,23 +414,24 @@
             display:flex;align-items:center;gap:14px;
             width:calc(100% - 32px);max-width:464px;
             padding:14px 22px;border-radius:22px;
-            background:rgba(30,22,48,0.6);
+            background:rgba(32,12,30,0.62);
             border:1px solid rgba(255,255,255,0.16);
             backdrop-filter:blur(32px) saturate(170%);
             -webkit-backdrop-filter:blur(32px) saturate(170%);
-            box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),0 16px 44px rgba(4,2,12,0.6);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),0 16px 44px rgba(6,2,14,0.6);
             cursor:pointer;opacity:0;pointer-events:none;
-            transition:transform .38s cubic-bezier(.22,1,.36,1),opacity .3s ease;
+            transition:transform .38s cubic-bezier(.22,1,.36,1),opacity .3s ease,background .8s ease;
         }
+        body.agm .sticky-net{background:rgba(10,24,32,0.62);}
         .sticky-net.show{transform:translate(-50%,0);opacity:1;pointer-events:auto;}
         .sn-lbl{font-size:0.72rem;color:var(--t2);letter-spacing:1.5px;flex:1;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .sn-num{
-            font-family:var(--num);font-size:1.3rem;font-weight:800;
+            font-family:var(--num);font-size:1.3rem;font-weight:700;
             background:var(--grad);
             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
             font-variant-numeric:tabular-nums;white-space:nowrap;
         }
-        .sticky-net.ag .sn-num{background:linear-gradient(135deg,#eef2f7,var(--plat));-webkit-background-clip:text;background-clip:text;}
+        .sticky-net.ag .sn-num{background:var(--grad-ice);-webkit-background-clip:text;background-clip:text;}
 
         /* 底部 */
         .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);margin:32px 0;}
@@ -355,39 +451,44 @@
         .cform input[type="text"]{
             width:100%;padding:15px 20px;
             border-radius:16px;border:1px solid var(--line-soft);
-            background:rgba(0,0,0,0.24);color:var(--t1);
+            background:rgba(0,0,0,0.26);color:var(--t1);
             font-family:'Noto Sans TC',sans-serif;font-size:0.95rem;
             outline:none;margin-bottom:12px;
             transition:border-color .25s;
         }
-        .cform input[type="text"]:focus{border-color:rgba(212,169,82,0.5);}
+        .cform input[type="text"]:focus{border-color:rgba(255,107,157,0.55);}
         .btn-send{
-            width:100%;background:var(--grad);color:#2a2008;
+            width:100%;background:var(--grad);color:var(--ink);
             border:none;padding:16px;border-radius:999px;
             cursor:pointer;margin-top:8px;min-height:54px;
             font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:0.94rem;
             transition:all .25s;letter-spacing:1.5px;
-            box-shadow:0 10px 28px rgba(212,169,82,0.24),inset 0 1px 0 rgba(255,255,255,0.45);
+            box-shadow:0 10px 28px rgba(255,107,157,0.28),inset 0 1px 0 rgba(255,255,255,0.5);
         }
-        .btn-send:active{transform:scale(0.98);box-shadow:0 5px 16px rgba(212,169,82,0.34);}
+        .btn-send:active{transform:scale(0.98);box-shadow:0 5px 16px rgba(255,107,157,0.38);}
         .btn-send:disabled{opacity:.4;cursor:not-allowed;}
         .note{font-size:0.7rem;color:var(--t3);margin-top:42px;text-align:center;line-height:2.2;}
-        .thanks{color:rgba(212,169,82,0.55);font-weight:700;margin-top:12px;font-size:0.7rem;}
+        .thanks{color:rgba(255,107,157,0.5);font-weight:700;margin-top:12px;font-size:0.7rem;}
 
         /* 尊重「減少動態」偏好設定 */
         @media (prefers-reduced-motion: reduce){
             *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+            .res-num,.res-num.ag{animation:none;background-position:30% 0;}
         }
     </style>
 </head>
 <body onload="init()">
-    <div class="aura aura-1"></div>
-    <div class="aura aura-2"></div>
-    <div class="aura aura-3"></div>
+    <div class="aura aw-1"></div>
+    <div class="aura aw-2"></div>
+    <div class="aura aw-3"></div>
+    <div class="aura ac-1"></div>
+    <div class="aura ac-2"></div>
+    <div class="aura ac-3"></div>
 
     <div class="card">
         <header>
             <h1>主播收益計算</h1>
+            <div class="h-sub">CHARM → CASH</div>
         </header>
 
         <!-- 魅力值 -->
@@ -401,14 +502,14 @@
         <div class="ig">
             <span class="field-lbl">直播房等級 ROOM LEVEL</span>
             <div class="lvl-grid">
-                <button class="btn-lvl" onclick="setLvl(1,0.6)">1等<span class="lv-rate">×0.60</span></button>
-                <button class="btn-lvl" onclick="setLvl(2,1.2)">2等<span class="lv-rate">×1.20</span></button>
-                <button class="btn-lvl" onclick="setLvl(3,1.25)">3等<span class="lv-rate">×1.25</span></button>
-                <button class="btn-lvl" onclick="setLvl(4,1.3)">4等<span class="lv-rate">×1.30</span></button>
-                <button class="btn-lvl" onclick="setLvl(5,1.35)">5等<span class="lv-rate">×1.35</span></button>
-                <button class="btn-lvl" onclick="setLvl(6,1.4)">6等<span class="lv-rate">×1.40</span></button>
-                <button class="btn-lvl" onclick="setLvl(7,1.45)">7等<span class="lv-rate">×1.45</span></button>
-                <button class="btn-lvl active" onclick="setLvl(8,1.5)">8等<span class="lv-rate">×1.50</span></button>
+                <button class="btn-lvl active" onclick="setLvl(1,0.6)">1等</button>
+                <button class="btn-lvl" onclick="setLvl(2,1.2)">2等</button>
+                <button class="btn-lvl" onclick="setLvl(3,1.25)">3等</button>
+                <button class="btn-lvl" onclick="setLvl(4,1.3)">4等</button>
+                <button class="btn-lvl" onclick="setLvl(5,1.35)">5等</button>
+                <button class="btn-lvl" onclick="setLvl(6,1.4)">6等</button>
+                <button class="btn-lvl" onclick="setLvl(7,1.45)">7等</button>
+                <button class="btn-lvl" onclick="setLvl(8,1.5)">8等</button>
             </div>
             <div class="mode-sw" id="modeSw">
                 <span class="mode-ind" id="modeInd"></span>
@@ -478,7 +579,7 @@
                 <!-- ③ 稅務 -->
                 <div class="step-hd"><span class="step-n">3</span><span class="step-t">稅務處理方式</span></div>
                 <div class="tax-note">
-                    <b>提醒</b>　各家經紀約的付款與稅務結構差異極大，以下試算僅供概念參考。建議先用「不計算稅務」檢視分潤淨額，實際稅務以合約與會計師為準。
+                    <b>提醒</b>　各家經紀約的付款與稅務結構差異極大，以下試算僅供概念參考。平台付款一律以「兼職薪資所得」規則試算（憑單格式代號 50）；若平台開立執行業務所得（9A/9B），門檻與稅率不同。建議先用「不計算稅務」檢視分潤淨額，實際稅務以合約與會計師為準。
                 </div>
                 <div class="tax-list">
 
@@ -491,12 +592,12 @@
                         </div>
                     </label>
 
-                    <!-- 平台已預扣 -->
+                    <!-- 平台預扣・稅後分潤 -->
                     <label class="tax-opt">
                         <input type="radio" name="tx" value="plat" onchange="doTxChange()" onclick="doTxChange()">
                         <div>
-                            <span class="opt-title">平台已預扣</span>
-                            <span class="opt-desc">平台先就整體收益扣二代健保（2.11%）與所得稅（5%，視門檻），稅後再依比例分潤。適用平台直接付款給個人的情況。</span>
+                            <span class="opt-title">平台預扣・稅後分潤</span>
+                            <span class="opt-desc">平台直接付款給主播個人，先依兼職薪資規則就全額扣二代健保（2.11%）與所得稅（5%，達門檻才扣），稅後金額再依比例分給工作室或其他分潤方。適合合夥工作室、共同基金等情境。</span>
                         </div>
                     </label>
 
@@ -534,7 +635,7 @@
                                         <input class="sub-inp ag-inp" type="number" id="laborHealth" value="0" min="0" inputmode="numeric" oninput="calc()" onclick="this.select()" style="width:100%;text-align:left;padding-left:14px;">
                                         <span style="font-size:0.76rem;color:var(--t3);white-space:nowrap;flex-shrink:0;">元/月</span>
                                     </div>
-                                    <div class="notice">依投保薪資級距計算，本工具不自動計算級距，數字僅供參考。</div>
+                                    <div class="notice">依投保薪資級距計算，本工具不自動計算級距，且未含薪資所得稅預扣，數字僅供稅前參考。</div>
                                 </div>
 
                                 <!-- 合約約聘欄位 -->
@@ -549,7 +650,7 @@
                                             <span style="font-size:0.76rem;color:var(--t3);">%</span>
                                         </div>
                                     </div>
-                                    <div class="notice">二代健保補充費（2.11%）依分潤金額自動計算，單次達 2 萬元即扣除（執行業務所得門檻），結果面板會顯示扣除明細。</div>
+                                    <div class="notice">二代健保補充費（2.11%）依分潤金額自動計算，單次達 2 萬元即扣除（執行業務所得門檻）。固定底薪一併納入同一稅基屬簡化處理，實際上底薪多屬薪資所得，門檻與扣法不同。</div>
                                 </div>
                             </div>
                         </div>
@@ -561,6 +662,7 @@
 
         <!-- 結果面板 -->
         <div class="res-panel" id="resPanel">
+            <div class="rc-edge"></div>
             <div class="rc-stamp">我男朋友來了</div>
             <div class="rc-top">
                 <span class="rc-brand">收益試算</span>
@@ -569,6 +671,22 @@
             <div class="res-hd">
                 <div class="res-lbl" id="resLbl">預計實領</div>
                 <span class="res-num" id="netNum">$0</span>
+                <div class="th-pill" id="thPill"></div>
+            </div>
+            <!-- 收益瀑布條 -->
+            <div class="wf-wrap" id="wfWrap">
+                <div class="wf">
+                    <div class="wf-seg wf-net" id="wfNet"></div>
+                    <div class="wf-seg wf-oth" id="wfOth"></div>
+                    <div class="wf-seg wf-tax" id="wfTax"></div>
+                    <div class="wf-seg wf-exp" id="wfExp"></div>
+                </div>
+                <div class="wf-lg">
+                    <span class="wf-li" id="lgNet"><i class="d-net"></i>實領</span>
+                    <span class="wf-li" id="lgOth"><i class="d-oth"></i>他方分潤</span>
+                    <span class="wf-li" id="lgTax"><i class="d-tax"></i>稅務</span>
+                    <span class="wf-li" id="lgExp"><i class="d-exp"></i>支出</span>
+                </div>
             </div>
             <div class="details">
                 <!-- 官方 -->
@@ -604,6 +722,8 @@
                 實際金額依官方平台及合約為主<br>
                 採用 2026 年（民國 115 年）稅制：基本工資 29,500 元、薪資扣繳起扣點 90,501 元<br>
                 非居住者依一課稅年度在台居留是否滿 183 天認定，未滿 183 天適用 6%/18% 扣繳<br>
+                平台付款以「兼職薪資所得」（憑單格式代號 50）為前提試算；若開立執行業務所得（9A/9B），門檻與稅率不同<br>
+                經紀公司模式之試算以居住者身份為前提<br>
                 <span class="hl">正式員工之勞健保依投保級距計算，本工具不自動計算，數字僅供參考</span><br>
                 經紀公司約各家條件不同，稅務處理方式請以實際合約為準<br>
                 廠商合作關係（雙方均有統編）之稅務，本工具不介入試算<br>
@@ -633,7 +753,7 @@
 
 <script>
 /* ══ 狀態 ══ */
-let lvlRate = 1.5, mode = 'off', resType = 'resident';
+let lvlRate = 0.6, mode = 'off', resType = 'resident';
 let parties = [
     {lbl:'主播',    pct:50, on:true,  fixed:true},
     {lbl:'經紀公司',pct:50, on:true,  fixed:true},
@@ -641,6 +761,17 @@ let parties = [
     {lbl:'其他',    pct:0,  on:false, fixed:false},
 ];
 let expenses = [];
+
+/* 2026（民國 115 年）稅制常數 */
+const T = {
+    minWage: 29500,        // 基本工資：兼職薪資二代健保補充保費起扣
+    whSalary: 90501,       // 薪資扣繳起扣點（5%）
+    nonResLine: 44250,     // 非居住者 6%/18% 分界（基本工資 ×1.5）
+    nhiRate: 0.0211,
+    nhiCap: 10000000,      // 補充保費單次上限
+    profBiz: 20000,        // 執行業務所得二代健保起扣
+    whExempt: 2000,        // 稅額 ≤ 2,000 免扣繳
+};
 
 /* 是否偏好減少動態 */
 const _reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -658,21 +789,20 @@ function paintNet(v){
     el.textContent = s;
     document.getElementById('snNum').textContent = s;
     const L = s.length;
-    el.style.fontSize = L<=7?'2.8rem':L<=9?'2.25rem':L<=11?'1.85rem':'1.5rem';
+    el.style.fontSize = L<=7?'2.9rem':L<=9?'2.3rem':L<=11?'1.85rem':'1.5rem';
 }
 function setNet(n){
     const el  = document.getElementById('netNum');
     const end = Math.floor(n), start = _netVal;
     if(start === end){ paintNet(end); return; }
 
-    // 數字變動時的脈衝高亮
     el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
 
     if(_reduceMotion){ _netVal = end; paintNet(end); return; }
 
     cancelAnimationFrame(_netRaf);
     const t0 = performance.now(), dur = 520;
-    const ease = t => 1 - Math.pow(1 - t, 3); // easeOutCubic
+    const ease = t => 1 - Math.pow(1 - t, 3);
     (function frame(now){
         const t = Math.min(1, (now - t0) / dur);
         _netVal = Math.round(start + (end - start) * ease(t));
@@ -691,14 +821,12 @@ function setText(id, t){
 
 /* ══ 初始化 ══ */
 function init(){
-    // 試算日期
     const d = new Date();
     document.getElementById('rcDate').textContent =
         d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0');
 
     renderParties(); calc();
 
-    // 結果面板離開視窗時，顯示底部懸浮實領列
     const panel = document.getElementById('resPanel');
     const bar   = document.getElementById('stickyNet');
     if('IntersectionObserver' in window){
@@ -722,6 +850,7 @@ function setMode(m){
     document.getElementById('btnOff').classList.toggle('active', !isAg);
     document.getElementById('btnAg').classList.toggle('active', isAg);
     document.getElementById('modeInd').classList.toggle('ag', isAg);
+    document.body.classList.toggle('agm', isAg);
     showBlock('agSec',   isAg);
     showBlock('offRows', !isAg);
     showBlock('agRows',  isAg);
@@ -758,7 +887,7 @@ function renderParties(){
         row.innerHTML = `
             <span class="pty-badge${gi===0?' me':''}">${p.lbl}</span>
             <input class="pty-num" type="number" min="0" max="100" value="${p.pct}"
-                inputmode="decimal"
+                inputmode="decimal" data-gi="${gi}"
                 oninput="onPtyPct(this,${gi},${two})"
                 onclick="this.select()">
             <span class="pty-unit">%</span>
@@ -778,11 +907,10 @@ function onPtyPct(el, gi, two){
     if(two){
         const other = parties.find((p,i)=>p.on&&i!==gi);
         if(other){
+            const oi = parties.indexOf(other);
             other.pct = Math.max(0,100-n);
-            document.getElementById('partyRows').querySelectorAll('.pty-num').forEach(inp=>{
-                const g = parseInt(inp.getAttribute('oninput').match(/onPtyPct\(this,(\d+)/)[1]);
-                if(g!==gi) inp.value = other.pct;
-            });
+            const inp = document.querySelector(`.pty-num[data-gi="${oi}"]`);
+            if(inp) inp.value = other.pct;
         }
     }
     updateTotal(); calc();
@@ -875,10 +1003,193 @@ function doIdChange(){
     }, 0);
 }
 
+/* ══════════════════════════════════════════════
+   核心計算引擎：readSettings + netOf（純函式）
+   ══════════════════════════════════════════════ */
+function readSettings(){
+    const S = { mode, resType, lvlRate };
+    if(mode==='ag'){
+        S.tx  = document.querySelector('input[name="tx"]:checked')?.value||'none';
+        S.pct = parties[0].pct;
+        S.sal = document.getElementById('hasSal').checked ? $n('baseSal') : 0;
+        S.exp = document.getElementById('hasExp').checked ? totalExp() : 0;
+        S.id  = document.querySelector('input[name="identity"]:checked')?.value||'employee';
+        S.lh  = $n('laborHealth');
+        S.whR = parseFloat(document.getElementById('whRate').value)||0;
+    } else {
+        S.sal = 0; S.exp = 0;
+    }
+    return S;
+}
+
+/* 純函式：給定原始收益 g 與設定 S，回傳完整拆解 */
+function netOf(g, S){
+    const R = { gross:g, sal:S.sal||0, exp:S.exp||0, others:0, taxes:[], net:0 };
+
+    if(S.mode==='off'){
+        if(S.resType==='nonres'){
+            const isLow = g<=T.nonResLine;
+            const rate  = isLow ? 0.06 : 0.18;
+            const ii = Math.round(g*rate);
+            R.taxes.push({lbl:`預扣所得稅 (${isLow?'6':'18'}%)`, amt:ii, key:'i'});
+            R.net = Math.max(0, Math.floor(g-ii));
+        } else {
+            const h  = g>=T.minWage  ? Math.round(Math.min(g,T.nhiCap)*T.nhiRate) : 0;
+            const ii = g>=T.whSalary ? Math.round(g*0.05) : 0;
+            R.taxes.push({lbl:'二代健保 (2.11%)', amt:h,  key:'h'});
+            R.taxes.push({lbl:'預扣所得稅 (5.00%)', amt:ii, key:'i'});
+            R.net = Math.max(0, Math.floor(g-h-ii));
+        }
+        return R;
+    }
+
+    /* 經紀公司 */
+    const pct = S.pct, sal = S.sal, exp = S.exp;
+    let split = 0;
+
+    if(S.tx==='plat'){
+        /* 平台預扣・稅後分潤：個人收款全額計稅，稅後再依比例分 */
+        const h   = g>=T.minWage  ? Math.round(Math.min(g,T.nhiCap)*T.nhiRate) : 0;
+        const ii  = g>=T.whSalary ? Math.round(g*0.05) : 0;
+        const tax = h+ii;
+        split = (g-tax)*(pct/100);
+        R.others = Math.max(0,(g-tax)-split);
+        R.taxes.push({lbl:'平台預扣（個人全額計）', amt:tax, key:'t1'});
+        R.split = split;
+        R.net = Math.max(0, Math.floor(split+sal-exp));
+
+    } else if(S.tx==='identity'){
+        split = g*(pct/100);
+        R.others = Math.max(0, g-split);
+        R.split = split;
+        const base = split+sal;
+
+        if(S.id==='employee'){
+            const lh = S.lh;
+            if(lh>0) R.taxes.push({lbl:'勞健保自付額', amt:lh, key:'t2'});
+            R.net = Math.max(0, Math.floor(split+sal-lh-exp));
+        } else {
+            const nhi   = base>=T.profBiz ? Math.round(Math.min(base,T.nhiCap)*T.nhiRate) : 0;
+            const whAmt = Math.round(base*S.whR/100);
+            const wh    = whAmt>T.whExempt ? whAmt : 0;
+            if(nhi>0) R.taxes.push({lbl:'二代健保補充費', amt:nhi, key:'t2'});
+            if(wh>0)  R.taxes.push({lbl:'所得稅預扣',     amt:wh,  key:'t3'});
+            R.net = Math.max(0, Math.floor(split+sal-nhi-wh-exp));
+        }
+
+    } else {
+        split = g*(pct/100);
+        R.others = Math.max(0, g-split);
+        R.split = split;
+        R.net = Math.max(0, Math.floor(split+sal-exp));
+    }
+    return R;
+}
+
+/* ══ 門檻智慧引擎 ══ */
+/* 依目前設定回傳原始收益（g 空間）中所有扣費門檻 */
+function thresholdsOf(S){
+    if(S.mode==='off'){
+        return S.resType==='nonres' ? [T.nonResLine+1] : [T.minWage, T.whSalary];
+    }
+    if(S.tx==='plat') return [T.minWage, T.whSalary];
+    if(S.tx==='identity' && S.id==='contract' && S.pct>0){
+        const ts = [];
+        const toG = base => (base - S.sal) / (S.pct/100);
+        const g1 = toG(T.profBiz);            // 二代健保門檻
+        if(g1>0) ts.push(g1);
+        if(S.whR>0){
+            const g2 = toG(T.whExempt*100/S.whR + 0.01);  // 稅額 > 2,000 起扣
+            if(g2>0) ts.push(g2);
+        }
+        return ts.sort((a,b)=>a-b);
+    }
+    return [];
+}
+
+/* 二分搜尋：從 g 往上找到實領回升至 targetNet 的最小原始收益 */
+function findRecovery(g, targetNet, S){
+    let lo = g, hi = Math.max(g*3, g+300000);
+    if(netOf(hi,S).net < targetNet) return null;
+    for(let k=0;k<48;k++){
+        const mid = (lo+hi)/2;
+        if(netOf(mid,S).net >= targetNet) hi = mid; else lo = mid;
+    }
+    return hi;
+}
+
+function updateThresholdHint(g, S, netNow){
+    const pill = document.getElementById('thPill');
+    if(g<=0){ pill.style.display='none'; return; }
+    const ts = thresholdsOf(S);
+    if(!ts.length){ pill.style.display='none'; return; }
+
+    /* 1) 斷崖偵測：已跨過某門檻且實領低於門檻前 */
+    let cliff = null;
+    for(const t of ts){
+        if(g >= t){
+            const before = netOf(Math.max(0,t-1), S).net;
+            if(before > netNow && (!cliff || t > cliff.t)) cliff = {t, before};
+        }
+    }
+    if(cliff){
+        const diff = cliff.before - netNow;
+        const gr = findRecovery(g, cliff.before, S);
+        let msg = `⚠️ 已跨過扣費門檻：目前比門檻前<b>少領 $${fmt(diff)}</b>`;
+        if(gr){
+            const charmR = Math.ceil(gr / S.lvlRate * 8);
+            msg += `，原始收益需達 <b>$${fmt(Math.ceil(gr))}</b>（魅力值約 <b>${charmR.toLocaleString('zh-TW')}</b>）實領才回到門檻前水準`;
+        }
+        pill.className='th-pill warn';
+        pill.innerHTML = msg;
+        pill.style.display='block';
+        return;
+    }
+
+    /* 2) 接近門檻：距離下一個門檻 12% 以內 */
+    const next = ts.find(t => t > g);
+    if(next && (next-g)/next <= 0.12){
+        pill.className='th-pill info';
+        pill.innerHTML = `💡 距離下一個扣費門檻還有 <b>$${fmt(Math.ceil(next-g))}</b>；跨過後扣費將以全額計算，實領會先短暫下降`;
+        pill.style.display='block';
+        return;
+    }
+    pill.style.display='none';
+}
+
+/* ══ 收益瀑布條 ══ */
+function updateWaterfall(R){
+    const taxSum = R.taxes.reduce((s,t)=>s+t.amt,0);
+    const total  = R.gross + R.sal;
+    const wrap = document.getElementById('wfWrap');
+    if(total<=0){ wrap.style.opacity='0.3';
+        ['wfNet','wfOth','wfTax','wfExp'].forEach(id=>document.getElementById(id).style.width='0%');
+        ['lgNet','lgOth','lgTax','lgExp'].forEach(id=>document.getElementById(id).classList.remove('on'));
+        return;
+    }
+    wrap.style.opacity='1';
+    const clampedExp = Math.min(R.exp, Math.max(0,total-taxSum-R.others));
+    const segs = [
+        {id:'wfNet', lg:'lgNet', v:R.net},
+        {id:'wfOth', lg:'lgOth', v:R.others},
+        {id:'wfTax', lg:'lgTax', v:taxSum},
+        {id:'wfExp', lg:'lgExp', v:clampedExp},
+    ];
+    const sum = segs.reduce((s,x)=>s+x.v,0) || 1;
+    segs.forEach(x=>{
+        let w = x.v/sum*100;
+        if(x.v>0 && w<1.5) w = 1.5;   // 微量段保底可見
+        document.getElementById(x.id).style.width = w.toFixed(2)+'%';
+        document.getElementById(x.lg).classList.toggle('on', x.v>0);
+    });
+}
+
 /* ══ 主計算 ══ */
 function calc(){
     const charm = $n('charm');
     const g = (charm/8)*lvlRate;
+    const S = readSettings();
+    const R = netOf(g, S);
 
     /* 魅力值千分位提示 */
     const hint = document.getElementById('charmHint');
@@ -886,123 +1197,47 @@ function calc(){
 
     /* ── 官方簽約 ── */
     if(mode==='off'){
-        let h, ii, iLbl;
-        if(resType==='nonres'){
-            // 非居住者：免二代健保補充保費；薪資扣繳 6%(≤基本工資1.5倍) 或 18%
-            h = 0;
-            const isLow = g<=44250;                 // 2026 基本工資 29,500×1.5 = 44,250
-            const rate = isLow ? 0.06 : 0.18;
-            ii = Math.round(g*rate);
-            iLbl = `預扣所得稅 (${isLow ? '6' : '18'}%)`;
-        } else {
-            // 居住者：二代健保 2.11%(≥29,500)、薪資扣繳 5%(≥90,501)
-            h  = g>=29500 ? Math.round(Math.min(g,10000000)*0.0211) : 0;
-            ii = g>=90501 ? Math.round(g*0.05)   : 0;
-            iLbl = '預扣所得稅 (5.00%)';
-        }
-        const net= Math.max(0,Math.floor(g-h-ii));
         setText('oGross','$'+fmt(g));
-        show('oHRow', resType!=='nonres');          // 非居住者隱藏二代健保列
-        setText('oH',   '-$'+fmt(h));
-        setText('oILbl', iLbl);
-        setText('oI',   '-$'+fmt(ii));
+        const hTax = R.taxes.find(t=>t.key==='h');
+        const iTax = R.taxes.find(t=>t.key==='i');
+        show('oHRow', !!hTax);
+        if(hTax) setText('oH','-$'+fmt(hTax.amt));
+        setText('oILbl', iTax.lbl);
+        setText('oI','-$'+fmt(iTax.amt));
         setText('resLbl', resType==='nonres' ? '預計實領（非居住者）' : '預計實領');
-        setNet(net);
+        setNet(R.net);
+        updateWaterfall(R);
+        updateThresholdHint(g, S, R.net);
         return;
     }
 
     /* ── 經紀公司 ── */
-    const tx  = document.querySelector('input[name="tx"]:checked')?.value||'none';
-    const pct = parties[0].pct;
-    const sal = document.getElementById('hasSal').checked ? $n('baseSal') : 0;
-    const exp = document.getElementById('hasExp').checked ? totalExp() : 0;
-
-    setText('aPct',  `主播 ${pct}%`);
+    setText('aPct',  `主播 ${S.pct}%`);
     setText('aGross','$'+fmt(g));
-    setText('aSal',  '+$'+fmt(sal));
-    setText('aExp',  '-$'+fmt(exp));
-    show('aSalRow', sal>0);
-    show('aExpRow', exp>0);
+    setText('aSal',  '+$'+fmt(S.sal));
+    setText('aExp',  '-$'+fmt(S.exp));
+    show('aSalRow', S.sal>0);
+    show('aExpRow', S.exp>0);
+    setText('aSplit','$'+fmt(R.split||0));
 
-    let split=0, net=0;
+    const t1 = R.taxes.find(t=>t.key==='t1');
+    const t2 = R.taxes.find(t=>t.key==='t2');
+    const t3 = R.taxes.find(t=>t.key==='t3');
+    show('aTax1Row', !!t1);
+    if(t1){ setText('aTax1Lbl', t1.lbl); setText('aTax1','-$'+fmt(t1.amt)); }
+    show('aTax2Row', !!t2);
+    if(t2){ setText('aTax2Lbl', t2.lbl); setText('aTax2','-$'+fmt(t2.amt)); }
+    show('aTax3Row', !!t3);
+    if(t3){ setText('aTax3Lbl', t3.lbl); setText('aTax3','-$'+fmt(t3.amt)); }
 
-    if(tx==='plat'){
-        /* 平台已預扣：整體扣稅後分潤 */
-        const h  = g>=29500 ? Math.round(Math.min(g,10000000)*0.0211) : 0;
-        const ii = g>=90501 ? Math.round(g*0.05)   : 0;
-        const tax= h+ii;
-        split = (g-tax)*(pct/100);
-        net   = Math.max(0,Math.floor(split+sal-exp));
+    if(S.tx==='none')      setText('resLbl','分潤後金額（未含稅）');
+    else if(S.tx==='identity' && S.id==='employee') setText('resLbl','預計實領（稅前參考）');
+    else                   setText('resLbl','預計實領');
 
-        show('aTax1Row', true);
-        setText('aTax1Lbl','平台稅務預扣（整體）');
-        setText('aTax1',   '-$'+fmt(tax));
-        setText('aSplit',  '$'+fmt(split));
-        show('aTax2Row', false);
-        show('aTax3Row', false);
-        setText('resLbl','預計實領');
-
-    } else if(tx==='identity'){
-        /* 依身份：平台不扣，先分潤再依身份算稅 */
-        split = g*(pct/100);
-        const base = split+sal;
-        const id = document.querySelector('input[name="identity"]:checked')?.value||'employee';
-        show('aTax1Row', false);
-        setText('aSplit','$'+fmt(split));
-
-        if(id==='employee'){
-            /* 正式員工：勞健保合計自填 */
-            const tax = $n('laborHealth');
-            net = Math.max(0,Math.floor(split+sal-tax-exp));
-            if(tax>0){
-                show('aTax2Row',true);
-                setText('aTax2Lbl','勞健保自付額');
-                setText('aTax2',   '-$'+fmt(tax));
-            } else {
-                show('aTax2Row',false);
-            }
-            show('aTax3Row',false);
-            setText('resLbl','預計實領（稅前參考）');
-
-        } else {
-            /* 合約約聘：二代健保自動 2.11%（執行業務所得，單次達 2 萬起扣），所得稅預扣自填 */
-            const whR = parseFloat(document.getElementById('whRate').value)||0;
-            const nhi = base>=20000 ? Math.round(Math.min(base,10000000)*0.0211) : 0;
-            const whAmt = Math.round(base*whR/100);
-            const wh  = whAmt>2000 ? whAmt : 0;   // 稅額 ≤ 2,000 免扣繳
-            net = Math.max(0,Math.floor(split+sal-nhi-wh-exp));
-            // 二代健保那行
-            if(nhi>0){
-                show('aTax2Row',true);
-                setText('aTax2Lbl','二代健保補充費');
-                setText('aTax2',   '-$'+fmt(nhi));
-            } else {
-                show('aTax2Row',false);
-            }
-            // 所得稅預扣那行
-            if(wh>0){
-                show('aTax3Row',true);
-                setText('aTax3Lbl','所得稅預扣');
-                setText('aTax3',   '-$'+fmt(wh));
-            } else {
-                show('aTax3Row',false);
-            }
-            setText('resLbl','預計實領');
-        }
-
-    } else {
-        /* 不計算稅務 */
-        split = g*(pct/100);
-        net   = Math.max(0,Math.floor(split+sal-exp));
-        show('aTax1Row',false);
-        show('aTax2Row',false);
-        show('aTax3Row',false);
-        setText('aSplit','$'+fmt(split));
-        setText('resLbl','分潤後金額（未含稅）');
-    }
-
-    setText('aNet','$'+fmt(net));
-    setNet(net);
+    setText('aNet','$'+fmt(R.net));
+    setNet(R.net);
+    updateWaterfall(R);
+    updateThresholdHint(g, S, R.net);
 }
 
 /* ══ Email ══ */
