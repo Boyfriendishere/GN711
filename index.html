@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0a0714">
+    <meta name="theme-color" content="#140610">
     <title>主播收益計算</title>
+    <meta name="description" content="直播主播收益試算工具，計算魅力值對應實領金額">
     <meta property="og:title" content="主播收益計算">
     <meta property="og:description" content="直播主播收益試算工具，計算魅力值對應實領金額">
     <meta property="og:image" content="https://boyfriendishere.github.io/GN711/GN711-OG-banner.png">
@@ -12,6 +13,7 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://boyfriendishere.github.io/GN711/GN711-OG-banner.png">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎙️%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>(function(){emailjs.init("EzhO0x-IABJW4a3Om");})();</script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5WQM0D2302"></script>
@@ -22,6 +24,7 @@
         gtag('config', 'G-5WQM0D2302');
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Serif+TC:wght@900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* ═══════════════════════════════════════════════
@@ -48,8 +51,8 @@
         body{
             font-family:'Noto Sans TC',sans-serif;
             min-height:100vh;
-            background:#0a0714;
-            background-image:radial-gradient(ellipse 120% 60% at 50% -10%,rgba(255,107,157,0.05),transparent 60%);
+            background:#150710;
+            background-image:radial-gradient(ellipse 120% 60% at 50% -10%,rgba(255,107,157,0.10),transparent 60%),linear-gradient(180deg,#150710 0%,#190912 55%,#1f0b13 100%);
             color:var(--t1);
             display:flex;justify-content:center;align-items:flex-start;
             padding:40px 16px 120px;
@@ -59,7 +62,7 @@
         /* ── 舞台極光：暖 / 冷 兩組交叉淡入 ── */
         .aura{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px);will-change:transform,opacity;transition:opacity 1.2s ease;}
         .aw-1{width:660px;height:540px;background:radial-gradient(closest-side,rgba(255,107,157,0.14),transparent);top:-210px;left:50%;margin-left:-180px;animation:breathe 18s ease-in-out infinite alternate;}
-        .aw-2{width:540px;height:470px;background:radial-gradient(closest-side,rgba(139,92,246,0.12),transparent);top:22%;left:-210px;animation:breathe 23s ease-in-out infinite alternate-reverse;}
+        .aw-2{width:540px;height:470px;background:radial-gradient(closest-side,rgba(255,96,122,0.10),transparent);top:22%;left:-210px;animation:breathe 23s ease-in-out infinite alternate-reverse;}
         .aw-3{width:470px;height:430px;background:radial-gradient(closest-side,rgba(255,184,107,0.10),transparent);bottom:-8%;right:-150px;animation:breathe 26s ease-in-out infinite alternate;}
         .ac-1{width:660px;height:540px;background:radial-gradient(closest-side,rgba(143,227,242,0.13),transparent);top:-210px;left:50%;margin-left:-180px;animation:breathe 18s ease-in-out infinite alternate;opacity:0;}
         .ac-2{width:540px;height:470px;background:radial-gradient(closest-side,rgba(96,140,255,0.11),transparent);top:22%;left:-210px;animation:breathe 23s ease-in-out infinite alternate-reverse;opacity:0;}
@@ -364,6 +367,7 @@
         /* ── 收益瀑布條 ── */
         .wf-wrap{position:relative;z-index:1;padding:2px 22px 6px;}
         .wf{
+            position:relative;
             display:flex;height:14px;border-radius:8px;overflow:hidden;
             background:rgba(0,0,0,0.32);
             box-shadow:inset 0 1px 2px rgba(0,0,0,0.4);
@@ -469,6 +473,27 @@
         .btn-send:disabled{opacity:.4;cursor:not-allowed;}
         .note{font-size:0.7rem;color:var(--t3);margin-top:42px;text-align:center;line-height:2.2;}
         .thanks{color:rgba(255,107,157,0.5);font-weight:700;margin-top:12px;font-size:0.7rem;}
+
+        /* 反向試算 */
+        .rev-box{margin-top:26px;}
+        .rev-result{display:none;margin-top:12px;padding:12px 16px;border-radius:14px;background:rgba(255,184,107,0.06);border:1px solid rgba(255,184,107,0.28);font-size:0.8rem;color:var(--t2);line-height:1.9;text-align:center;animation:fadein .35s cubic-bezier(.22,1,.36,1) both;}
+        .rev-result b{font-family:var(--num);color:var(--amber);font-weight:700;}
+        body.agm .rev-result{background:var(--plat-dim);border-color:var(--plat-b);}
+        body.agm .rev-result b{color:var(--plat);}
+
+        /* 瀑布條門檻刻度 */
+        .wf-tick{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,0.55);pointer-events:none;z-index:1;}
+
+        /* 送信狀態 */
+        .send-status{display:none;margin-top:10px;text-align:center;font-size:0.76rem;line-height:1.6;}
+
+        /* 手機降載：光暈與毛玻璃 */
+        @media (max-width:480px){
+            .aura{filter:blur(70px);}
+            .card{backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);}
+            .res-panel{backdrop-filter:blur(16px) saturate(170%);-webkit-backdrop-filter:blur(16px) saturate(170%);}
+            .sticky-net{backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);}
+        }
 
         /* 尊重「減少動態」偏好設定 */
         @media (prefers-reduced-motion: reduce){
@@ -672,6 +697,7 @@
                 <div class="res-lbl" id="resLbl">預計實領</div>
                 <span class="res-num" id="netNum">$0</span>
                 <div class="th-pill" id="thPill"></div>
+                <div class="th-pill" id="lvlPill"></div>
             </div>
             <!-- 收益瀑布條 -->
             <div class="wf-wrap" id="wfWrap">
@@ -713,6 +739,12 @@
             <div class="rc-note">※ 金額剛跨過扣費門檻時，多賺反而實領變少是正常現象（二代健保與預扣所得稅達門檻即以全額計算）</div>
         </div>
 
+        <div class="rev-box">
+            <span class="field-lbl">反向試算 REVERSE</span>
+            <input type="number" id="revNet" min="0" inputmode="numeric" placeholder="想實領多少 $" oninput="calcReverse()" onclick="this.select()">
+            <div class="rev-result" id="revResult"></div>
+        </div>
+
         <div class="divider"></div>
 
         <details class="privacy">
@@ -737,6 +769,7 @@
             <span class="field-lbl">內容</span>
             <textarea id="cMsg" rows="2" placeholder="喜歡你的聲音❤️"></textarea>
             <button id="sendBtn" class="btn-send" onclick="doSend()">🚀 Send</button>
+            <div class="send-status" id="sendStatus"></div>
         </div>
 
         <div class="note">
@@ -753,7 +786,8 @@
 
 <script>
 /* ══ 狀態 ══ */
-let lvlRate = 0.6, mode = 'off', resType = 'resident';
+let lvlRate = 0.6, lvlIdx = 1, mode = 'off', resType = 'resident';
+const LVL_RATES = [0.6, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5];
 let parties = [
     {lbl:'主播',    pct:50, on:true,  fixed:true},
     {lbl:'經紀公司',pct:50, on:true,  fixed:true},
@@ -838,7 +872,7 @@ function init(){
 
 /* ══ 等級 ══ */
 function setLvl(l, r){
-    lvlRate = r;
+    lvlRate = r; lvlIdx = l;
     document.querySelectorAll('.btn-lvl').forEach((b,i)=>b.classList.toggle('active', i===l-1));
     calc();
 }
@@ -1158,13 +1192,14 @@ function updateThresholdHint(g, S, netNow){
 }
 
 /* ══ 收益瀑布條 ══ */
-function updateWaterfall(R){
+function updateWaterfall(R, g, S){
     const taxSum = R.taxes.reduce((s,t)=>s+t.amt,0);
     const total  = R.gross + R.sal;
     const wrap = document.getElementById('wfWrap');
     if(total<=0){ wrap.style.opacity='0.3';
         ['wfNet','wfOth','wfTax','wfExp'].forEach(id=>document.getElementById(id).style.width='0%');
         ['lgNet','lgOth','lgTax','lgExp'].forEach(id=>document.getElementById(id).classList.remove('on'));
+        wrap.querySelectorAll('.wf-tick').forEach(t=>t.remove());
         return;
     }
     wrap.style.opacity='1';
@@ -1182,6 +1217,19 @@ function updateWaterfall(R){
         document.getElementById(x.id).style.width = w.toFixed(2)+'%';
         document.getElementById(x.lg).classList.toggle('on', x.v>0);
     });
+    /* 門檻刻度：標出扣費門檻在收益組成中的位置 */
+    const wfEl = wrap.querySelector('.wf');
+    wfEl.querySelectorAll('.wf-tick').forEach(t=>t.remove());
+    if(S && total>0){
+        thresholdsOf(S).forEach(t=>{
+            if(t>0 && t<total*0.985){
+                const d=document.createElement('div');
+                d.className='wf-tick';
+                d.style.left=(t/total*100).toFixed(2)+'%';
+                wfEl.appendChild(d);
+            }
+        });
+    }
 }
 
 /* ══ 主計算 ══ */
@@ -1206,8 +1254,10 @@ function calc(){
         setText('oI','-$'+fmt(iTax.amt));
         setText('resLbl', resType==='nonres' ? '預計實領（非居住者）' : '預計實領');
         setNet(R.net);
-        updateWaterfall(R);
+        updateWaterfall(R, g, S);
         updateThresholdHint(g, S, R.net);
+        updateLvlPill(charm, S, R);
+        calcReverse();
         return;
     }
 
@@ -1236,20 +1286,71 @@ function calc(){
 
     setText('aNet','$'+fmt(R.net));
     setNet(R.net);
-    updateWaterfall(R);
+    updateWaterfall(R, g, S);
     updateThresholdHint(g, S, R.net);
+    updateLvlPill(charm, S, R);
+    calcReverse();
+}
+
+/* ══ 升等對比 ══ */
+function updateLvlPill(charm, S, R){
+    const lp = document.getElementById('lvlPill');
+    if(charm>0 && lvlIdx<8){
+        const R2 = netOf((charm/8)*LVL_RATES[lvlIdx], S);
+        const gain = R2.net - R.net;
+        if(gain>0){
+            lp.className='th-pill info';
+            lp.innerHTML=`⬆️ 同魅力值若升到 <b>${lvlIdx+1} 等房</b>，實領約可多 <b>$${fmt(gain)}</b>`;
+            lp.style.display='block';
+            return;
+        }
+    }
+    lp.style.display='none';
+}
+
+/* ══ 反向試算：想實領 X，需要多少原始收益／魅力值 ══ */
+function findGrossForNet(target, S){
+    if(target<=0) return 0;
+    let lo=0, hi=Math.max(300000, target*2), guard=0;
+    while(netOf(hi,S).net<target && guard++<40) hi*=2;
+    if(netOf(hi,S).net<target) return null;
+    for(let k=0;k<60;k++){
+        const mid=(lo+hi)/2;
+        if(netOf(mid,S).net>=target) hi=mid; else lo=mid;
+    }
+    return hi;
+}
+function calcReverse(){
+    const box=document.getElementById('revResult');
+    const target=$n('revNet');
+    if(target<=0){box.style.display='none';return;}
+    const S=readSettings();
+    const g=findGrossForNet(target,S);
+    if(g===null){box.style.display='none';return;}
+    if(g<1){
+        box.innerHTML='目前的底薪設定已可達成此金額 🎉';
+    }else{
+        const charmNeed=Math.ceil(g/S.lvlRate*8);
+        box.innerHTML=`需原始收益約 <b>$${fmt(Math.ceil(g))}</b><br>以目前房等與設定換算，魅力值約需 <b>${charmNeed.toLocaleString('zh-TW')}</b>`;
+    }
+    box.style.display='block';
 }
 
 /* ══ Email ══ */
+function sendMsg(txt, ok){
+    const s=document.getElementById('sendStatus');
+    s.textContent=txt; s.style.display='block';
+    s.style.color=ok?'var(--ok)':'var(--red)';
+}
 function doSend(){
     const btn=document.getElementById('sendBtn');
-    const name=document.getElementById('cName').value;
-    const msg=document.getElementById('cMsg').value;
-    if(!name||!msg){alert('請完整填寫');return;}
+    const name=document.getElementById('cName').value.trim();
+    const msg=document.getElementById('cMsg').value.trim();
+    if(!name||!msg){sendMsg('請完整填寫名稱與內容', false);return;}
     btn.textContent='傳送中...'; btn.disabled=true;
     emailjs.send('service_ftxzhbu','template_905rmdk',{from_name:name,message:msg})
-        .then(()=>{ alert('回報已送達。'); document.getElementById('cName').value=''; document.getElementById('cMsg').value=''; btn.textContent='🚀 好啦我會看的'; btn.disabled=false; },
-        ()=>{ alert('失敗，請重試。'); btn.disabled=false; });
+        .then(()=>{ sendMsg('回報已送達 ✅', true); document.getElementById('cName').value=''; document.getElementById('cMsg').value=''; btn.textContent='🚀 好啦我會看的'; btn.disabled=false; },
+        ()=>{ sendMsg('傳送失敗，請再試一次', false); btn.textContent='🚀 Send'; btn.disabled=false; });
 }
 </script>
 </body>
